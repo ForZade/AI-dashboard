@@ -1,0 +1,163 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         BigInt          @id
+  email      String          @unique
+  username   String
+  avatar_url String?
+  created_at DateTime        @default(now())
+
+  password   UserPassword?
+  oauths     UserOAuth[]
+  projects   Project[]
+  chats      UserChatProject[]
+  chat_members ChatMember[]
+  threads_created Thread[]    @relation("ThreadCreator")
+}
+
+model UserPassword {
+  user_id      BigInt   @id
+  password     String
+  last_changed DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model UserOAuth {
+  id               BigInt   @id
+  user_id          BigInt
+  provider         String
+  provider_user_id String
+  refresh_token    String?
+  expires_at       DateTime?
+  created_at       DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Project {
+  id          BigInt   @id
+  user_id     BigInt
+  name        String
+  description String?
+  icon        String?
+  color       String?
+  created_at  DateTime @default(now())
+
+  user           User @relation(fields: [user_id], references: [id])
+  chat_assignments UserChatProject[]
+}
+
+model Chat {
+  id         BigInt   @id
+  name       String
+  owner_id   BigInt
+  is_private Boolean  @default(false)
+  ghost_mode Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  threads         Thread[]
+  chat_members    ChatMember[]
+  user_chat_projects UserChatProject[]
+  owner           User @relation(fields: [owner_id], references: [id])
+}
+
+model UserChatProject {
+  id        BigInt @id
+  user_id   BigInt
+  chat_id   BigInt
+  project_id BigInt
+
+  user    User    @relation(fields: [user_id], references: [id])
+  chat    Chat    @relation(fields: [chat_id], references: [id])
+  project Project @relation(fields: [project_id], references: [id])
+}
+
+model ChatMember {
+  id       BigInt  @id
+  room_id  BigInt
+  user_id  BigInt
+  role     Int
+  joined_at DateTime @default(now())
+
+  chat Chat @relation(fields: [room_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Thread {
+  id         BigInt   @id
+  room_id    BigInt
+  title      String
+  created_by BigInt
+  created_at DateTime @default(now())
+
+  room   Chat @relation(fields: [room_id], references: [id])
+  creator User @relation("ThreadCreator", fields: [created_by], references: [id])
+}
+
+model AIProfile {
+  id         BigInt @id
+  name       String
+  avatar_url String?
+
+  models Model[]
+}
+
+model Model {
+  id                 BigInt @id
+  ai_profile_id      BigInt
+  provider           String
+  api_identifier     String
+  default_temperature Float
+  created_at         DateTime @default(now())
+
+  ai_profile AIProfile @relation(fields: [ai_profile_id], references: [id])
+}
+
+model UserMetadata {
+  user_id    BigInt   @id
+  data       String
+  updated_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model ChatMetadata {
+  chat_id    BigInt   @id
+  data       String
+  updated_at DateTime @default(now())
+
+  chat Chat @relation(fields: [chat_id], references: [id])
+}
+
+model ChatContext {
+  chat_id      BigInt   @id
+  summary      String
+  last_updated DateTime @default(now())
+  vector_data  String?
+
+  chat Chat @relation(fields: [chat_id], references: [id])
+}
