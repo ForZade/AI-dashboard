@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: quack_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: duck
+      POSTGRES_PASSWORD: quack
+      POSTGRES_DB: quack
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+  redis:
+    image: redis:latest
+    container_name: quack_redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: ["redis-server", "--save", "900", "1", "--loglevel", "warning"]
+
+  scylla:
+    image: scylladb/scylla:latest
+    container_name: quack_scylla
+    restart: always
+    ports:
+      - '9042:9042' # CQL port
+      - '9160:9160' # Thrift (optional)
+      - '9180:9180' # REST / metrics
+    command: --smp 1 --memory 512M --overprovisioned 1
+
+  # nextjs:
+  #   build: .
+  #   container_name: quack_nextjs
+  #   restart: always
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     DATABASE_URL: postgres://postgres:postgres@postgres:5432/ai_dashboard
+  #     REDIS_URL: redis://redis:6379
+  #     SCYLLA_HOST: scylla
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #     - scylla
+
+volumes:
+  pgdata:
