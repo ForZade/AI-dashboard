@@ -1,20 +1,53 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-dark: var(--background-dark);
+
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-c-turquoise: var(--c-turquoise);
+  --color-c-green: var(--c-green);
+  --color-c-blue: var(--c-blue);
+  --color-c-purple: var(--c-purple);
+  --color-c-pink: var(--c-pink);
+  --color-c-yellow: var(--c-yellow);
+  --color-c-orange: var(--c-orange);
+  --color-c-red: var(--c-red);
+  --color-c-gray: var(--c-gray);
+  --color-c-slate: var(--c-slate);
+
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #F1F5F9;
+  --background-dark: #E2E8F0;
+
+  --foreground: #27272A;
+
+  --c-turquoise: #1ABC9C;
+  --c-green: #2ECC71;
+  --c-blue: #3498DB;
+  --c-purple: #9B59B6;
+  --c-pink: #E91E63;
+  --c-yellow: #F1C40F;
+  --c-orange: #E67E22;
+  --c-red: #E74C3C;
+  --c-gray: #95A5A6;
+  --c-slate: #607D8B;
+
+  --accent: #868FEF;
+  --accent-dark: #5865F2;
+}
+
+.dark {
+  --background: #313338;
+  --background-dark: #2B2D31;
+
+  --foreground: #FFFFFF;
 }
