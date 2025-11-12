@@ -10,7 +10,6 @@ export default function Folder({ projects, folderId }: { projects: any, folderId
 
     const toggleFolder = () => {
         setOpen(prev => !prev);
-
     }
 
     return (

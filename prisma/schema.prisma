@@ -80,7 +80,8 @@ model VerificationToken {
 model Project {
   id          BigInt   @id @default(autoincrement())
   user_id     BigInt
-  folder_id   BigInt
+  folder_id   BigInt?
+  position    Int
   name        String
   description String?
   icon        String?
@@ -88,7 +89,7 @@ model Project {
   created_at  DateTime @default(now())
 
   user             User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  folder           ProjectFolder     @relation(fields: [folder_id], references: [id] )
+  folder           ProjectFolder?    @relation(fields: [folder_id], references: [id] )
   chat_assignments UserChatProject[]
 }
 

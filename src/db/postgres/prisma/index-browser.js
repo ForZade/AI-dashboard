@@ -172,10 +172,21 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
+  folder_id: 'folder_id',
+  position: 'position',
   name: 'name',
   description: 'description',
   icon: 'icon',
   color: 'color',
+  created_at: 'created_at'
+};
+
+exports.Prisma.ProjectFolderScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  name: 'name',
+  is_open: 'is_open',
+  position: 'position',
   created_at: 'created_at'
 };
 
@@ -268,6 +279,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Project: 'Project',
+  ProjectFolder: 'ProjectFolder',
   Chat: 'Chat',
   UserChatProject: 'UserChatProject',
   ChatMember: 'ChatMember',

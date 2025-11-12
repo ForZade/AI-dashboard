@@ -44,6 +44,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
 /**
+ * Model ProjectFolder
+ * 
+ */
+export type ProjectFolder = $Result.DefaultSelection<Prisma.$ProjectFolderPayload>
+/**
  * Model Chat
  * 
  */
@@ -266,6 +271,16 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.projectFolder`: Exposes CRUD operations for the **ProjectFolder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectFolders
+    * const projectFolders = await prisma.projectFolder.findMany()
+    * ```
+    */
+  get projectFolder(): Prisma.ProjectFolderDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.chat`: Exposes CRUD operations for the **Chat** model.
@@ -803,6 +818,7 @@ export namespace Prisma {
     Session: 'Session',
     VerificationToken: 'VerificationToken',
     Project: 'Project',
+    ProjectFolder: 'ProjectFolder',
     Chat: 'Chat',
     UserChatProject: 'UserChatProject',
     ChatMember: 'ChatMember',
@@ -830,7 +846,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userPassword" | "userOAuth" | "session" | "verificationToken" | "project" | "chat" | "userChatProject" | "chatMember" | "thread" | "aIProfile" | "model" | "userMetadata" | "chatMetadata" | "chatContext"
+      modelProps: "user" | "userPassword" | "userOAuth" | "session" | "verificationToken" | "project" | "projectFolder" | "chat" | "userChatProject" | "chatMember" | "thread" | "aIProfile" | "model" | "userMetadata" | "chatMetadata" | "chatContext"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1275,6 +1291,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectFolder: {
+        payload: Prisma.$ProjectFolderPayload<ExtArgs>
+        fields: Prisma.ProjectFolderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectFolderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectFolderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectFolderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectFolderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectFolderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectFolderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectFolderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectFolderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectFolderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>
+          }
+          update: {
+            args: Prisma.ProjectFolderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectFolderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectFolderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProjectFolderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProjectFolderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectFolderPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectFolderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectFolder>
+          }
+          groupBy: {
+            args: Prisma.ProjectFolderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectFolderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectFolderCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectFolderCountAggregateOutputType> | number
           }
         }
       }
@@ -2046,6 +2136,7 @@ export namespace Prisma {
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
     project?: ProjectOmit
+    projectFolder?: ProjectFolderOmit
     chat?: ChatOmit
     userChatProject?: UserChatProjectOmit
     chatMember?: ChatMemberOmit
@@ -2138,6 +2229,7 @@ export namespace Prisma {
     oauths: number
     sessions: number
     projects: number
+    projectFolders: number
     chats_owned: number
     chats: number
     chat_members: number
@@ -2148,6 +2240,7 @@ export namespace Prisma {
     oauths?: boolean | UserCountOutputTypeCountOauthsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     projects?: boolean | UserCountOutputTypeCountProjectsArgs
+    projectFolders?: boolean | UserCountOutputTypeCountProjectFoldersArgs
     chats_owned?: boolean | UserCountOutputTypeCountChats_ownedArgs
     chats?: boolean | UserCountOutputTypeCountChatsArgs
     chat_members?: boolean | UserCountOutputTypeCountChat_membersArgs
@@ -2184,6 +2277,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountProjectFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectFolderWhereInput
   }
 
   /**
@@ -2243,6 +2343,37 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountChat_assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserChatProjectWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectFolderCountOutputType
+   */
+
+  export type ProjectFolderCountOutputType = {
+    projects: number
+  }
+
+  export type ProjectFolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    projects?: boolean | ProjectFolderCountOutputTypeCountProjectsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectFolderCountOutputType without action
+   */
+  export type ProjectFolderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolderCountOutputType
+     */
+    select?: ProjectFolderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectFolderCountOutputType without action
+   */
+  export type ProjectFolderCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
   }
 
 
@@ -2548,6 +2679,7 @@ export namespace Prisma {
     oauths?: boolean | User$oauthsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     projects?: boolean | User$projectsArgs<ExtArgs>
+    projectFolders?: boolean | User$projectFoldersArgs<ExtArgs>
     chats_owned?: boolean | User$chats_ownedArgs<ExtArgs>
     chats?: boolean | User$chatsArgs<ExtArgs>
     chat_members?: boolean | User$chat_membersArgs<ExtArgs>
@@ -2592,6 +2724,7 @@ export namespace Prisma {
     oauths?: boolean | User$oauthsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     projects?: boolean | User$projectsArgs<ExtArgs>
+    projectFolders?: boolean | User$projectFoldersArgs<ExtArgs>
     chats_owned?: boolean | User$chats_ownedArgs<ExtArgs>
     chats?: boolean | User$chatsArgs<ExtArgs>
     chat_members?: boolean | User$chat_membersArgs<ExtArgs>
@@ -2609,6 +2742,7 @@ export namespace Prisma {
       oauths: Prisma.$UserOAuthPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       projects: Prisma.$ProjectPayload<ExtArgs>[]
+      projectFolders: Prisma.$ProjectFolderPayload<ExtArgs>[]
       chats_owned: Prisma.$ChatPayload<ExtArgs>[]
       chats: Prisma.$UserChatProjectPayload<ExtArgs>[]
       chat_members: Prisma.$ChatMemberPayload<ExtArgs>[]
@@ -3021,6 +3155,7 @@ export namespace Prisma {
     oauths<T extends User$oauthsArgs<ExtArgs> = {}>(args?: Subset<T, User$oauthsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserOAuthPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     projects<T extends User$projectsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projectFolders<T extends User$projectFoldersArgs<ExtArgs> = {}>(args?: Subset<T, User$projectFoldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chats_owned<T extends User$chats_ownedArgs<ExtArgs> = {}>(args?: Subset<T, User$chats_ownedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chats<T extends User$chatsArgs<ExtArgs> = {}>(args?: Subset<T, User$chatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChatProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chat_members<T extends User$chat_membersArgs<ExtArgs> = {}>(args?: Subset<T, User$chat_membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3538,6 +3673,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
+  }
+
+  /**
+   * User.projectFolders
+   */
+  export type User$projectFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    where?: ProjectFolderWhereInput
+    orderBy?: ProjectFolderOrderByWithRelationInput | ProjectFolderOrderByWithRelationInput[]
+    cursor?: ProjectFolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectFolderScalarFieldEnum | ProjectFolderScalarFieldEnum[]
   }
 
   /**
@@ -8050,16 +8209,22 @@ export namespace Prisma {
   export type ProjectAvgAggregateOutputType = {
     id: number | null
     user_id: number | null
+    folder_id: number | null
+    position: number | null
   }
 
   export type ProjectSumAggregateOutputType = {
     id: bigint | null
     user_id: bigint | null
+    folder_id: bigint | null
+    position: number | null
   }
 
   export type ProjectMinAggregateOutputType = {
     id: bigint | null
     user_id: bigint | null
+    folder_id: bigint | null
+    position: number | null
     name: string | null
     description: string | null
     icon: string | null
@@ -8070,6 +8235,8 @@ export namespace Prisma {
   export type ProjectMaxAggregateOutputType = {
     id: bigint | null
     user_id: bigint | null
+    folder_id: bigint | null
+    position: number | null
     name: string | null
     description: string | null
     icon: string | null
@@ -8080,6 +8247,8 @@ export namespace Prisma {
   export type ProjectCountAggregateOutputType = {
     id: number
     user_id: number
+    folder_id: number
+    position: number
     name: number
     description: number
     icon: number
@@ -8092,16 +8261,22 @@ export namespace Prisma {
   export type ProjectAvgAggregateInputType = {
     id?: true
     user_id?: true
+    folder_id?: true
+    position?: true
   }
 
   export type ProjectSumAggregateInputType = {
     id?: true
     user_id?: true
+    folder_id?: true
+    position?: true
   }
 
   export type ProjectMinAggregateInputType = {
     id?: true
     user_id?: true
+    folder_id?: true
+    position?: true
     name?: true
     description?: true
     icon?: true
@@ -8112,6 +8287,8 @@ export namespace Prisma {
   export type ProjectMaxAggregateInputType = {
     id?: true
     user_id?: true
+    folder_id?: true
+    position?: true
     name?: true
     description?: true
     icon?: true
@@ -8122,6 +8299,8 @@ export namespace Prisma {
   export type ProjectCountAggregateInputType = {
     id?: true
     user_id?: true
+    folder_id?: true
+    position?: true
     name?: true
     description?: true
     icon?: true
@@ -8219,6 +8398,8 @@ export namespace Prisma {
   export type ProjectGroupByOutputType = {
     id: bigint
     user_id: bigint
+    folder_id: bigint | null
+    position: number
     name: string
     description: string | null
     icon: string | null
@@ -8248,12 +8429,15 @@ export namespace Prisma {
   export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     user_id?: boolean
+    folder_id?: boolean
+    position?: boolean
     name?: boolean
     description?: boolean
     icon?: boolean
     color?: boolean
     created_at?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Project$folderArgs<ExtArgs>
     chat_assignments?: boolean | Project$chat_assignmentsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
@@ -8261,28 +8445,36 @@ export namespace Prisma {
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     user_id?: boolean
+    folder_id?: boolean
+    position?: boolean
     name?: boolean
     description?: boolean
     icon?: boolean
     color?: boolean
     created_at?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Project$folderArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     user_id?: boolean
+    folder_id?: boolean
+    position?: boolean
     name?: boolean
     description?: boolean
     icon?: boolean
     color?: boolean
     created_at?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Project$folderArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
     id?: boolean
     user_id?: boolean
+    folder_id?: boolean
+    position?: boolean
     name?: boolean
     description?: boolean
     icon?: boolean
@@ -8290,28 +8482,34 @@ export namespace Prisma {
     created_at?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "name" | "description" | "icon" | "color" | "created_at", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "folder_id" | "position" | "name" | "description" | "icon" | "color" | "created_at", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Project$folderArgs<ExtArgs>
     chat_assignments?: boolean | Project$chat_assignmentsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Project$folderArgs<ExtArgs>
   }
   export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    folder?: boolean | Project$folderArgs<ExtArgs>
   }
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      folder: Prisma.$ProjectFolderPayload<ExtArgs> | null
       chat_assignments: Prisma.$UserChatProjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       user_id: bigint
+      folder_id: bigint | null
+      position: number
       name: string
       description: string | null
       icon: string | null
@@ -8712,6 +8910,7 @@ export namespace Prisma {
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    folder<T extends Project$folderArgs<ExtArgs> = {}>(args?: Subset<T, Project$folderArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     chat_assignments<T extends Project$chat_assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, Project$chat_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChatProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -8744,6 +8943,8 @@ export namespace Prisma {
   interface ProjectFieldRefs {
     readonly id: FieldRef<"Project", 'BigInt'>
     readonly user_id: FieldRef<"Project", 'BigInt'>
+    readonly folder_id: FieldRef<"Project", 'BigInt'>
+    readonly position: FieldRef<"Project", 'Int'>
     readonly name: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
     readonly icon: FieldRef<"Project", 'String'>
@@ -9145,6 +9346,25 @@ export namespace Prisma {
   }
 
   /**
+   * Project.folder
+   */
+  export type Project$folderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    where?: ProjectFolderWhereInput
+  }
+
+  /**
    * Project.chat_assignments
    */
   export type Project$chat_assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9184,6 +9404,1149 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectFolder
+   */
+
+  export type AggregateProjectFolder = {
+    _count: ProjectFolderCountAggregateOutputType | null
+    _avg: ProjectFolderAvgAggregateOutputType | null
+    _sum: ProjectFolderSumAggregateOutputType | null
+    _min: ProjectFolderMinAggregateOutputType | null
+    _max: ProjectFolderMaxAggregateOutputType | null
+  }
+
+  export type ProjectFolderAvgAggregateOutputType = {
+    id: number | null
+    user_id: number | null
+    position: number | null
+  }
+
+  export type ProjectFolderSumAggregateOutputType = {
+    id: bigint | null
+    user_id: bigint | null
+    position: number | null
+  }
+
+  export type ProjectFolderMinAggregateOutputType = {
+    id: bigint | null
+    user_id: bigint | null
+    name: string | null
+    is_open: boolean | null
+    position: number | null
+    created_at: Date | null
+  }
+
+  export type ProjectFolderMaxAggregateOutputType = {
+    id: bigint | null
+    user_id: bigint | null
+    name: string | null
+    is_open: boolean | null
+    position: number | null
+    created_at: Date | null
+  }
+
+  export type ProjectFolderCountAggregateOutputType = {
+    id: number
+    user_id: number
+    name: number
+    is_open: number
+    position: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type ProjectFolderAvgAggregateInputType = {
+    id?: true
+    user_id?: true
+    position?: true
+  }
+
+  export type ProjectFolderSumAggregateInputType = {
+    id?: true
+    user_id?: true
+    position?: true
+  }
+
+  export type ProjectFolderMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    name?: true
+    is_open?: true
+    position?: true
+    created_at?: true
+  }
+
+  export type ProjectFolderMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    name?: true
+    is_open?: true
+    position?: true
+    created_at?: true
+  }
+
+  export type ProjectFolderCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    name?: true
+    is_open?: true
+    position?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type ProjectFolderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectFolder to aggregate.
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectFolders to fetch.
+     */
+    orderBy?: ProjectFolderOrderByWithRelationInput | ProjectFolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectFolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectFolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectFolders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectFolders
+    **/
+    _count?: true | ProjectFolderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectFolderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectFolderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectFolderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectFolderMaxAggregateInputType
+  }
+
+  export type GetProjectFolderAggregateType<T extends ProjectFolderAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectFolder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectFolder[P]>
+      : GetScalarType<T[P], AggregateProjectFolder[P]>
+  }
+
+
+
+
+  export type ProjectFolderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectFolderWhereInput
+    orderBy?: ProjectFolderOrderByWithAggregationInput | ProjectFolderOrderByWithAggregationInput[]
+    by: ProjectFolderScalarFieldEnum[] | ProjectFolderScalarFieldEnum
+    having?: ProjectFolderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectFolderCountAggregateInputType | true
+    _avg?: ProjectFolderAvgAggregateInputType
+    _sum?: ProjectFolderSumAggregateInputType
+    _min?: ProjectFolderMinAggregateInputType
+    _max?: ProjectFolderMaxAggregateInputType
+  }
+
+  export type ProjectFolderGroupByOutputType = {
+    id: bigint
+    user_id: bigint
+    name: string
+    is_open: boolean
+    position: number
+    created_at: Date
+    _count: ProjectFolderCountAggregateOutputType | null
+    _avg: ProjectFolderAvgAggregateOutputType | null
+    _sum: ProjectFolderSumAggregateOutputType | null
+    _min: ProjectFolderMinAggregateOutputType | null
+    _max: ProjectFolderMaxAggregateOutputType | null
+  }
+
+  type GetProjectFolderGroupByPayload<T extends ProjectFolderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectFolderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectFolderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectFolderGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectFolderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectFolderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    name?: boolean
+    is_open?: boolean
+    position?: boolean
+    created_at?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    projects?: boolean | ProjectFolder$projectsArgs<ExtArgs>
+    _count?: boolean | ProjectFolderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectFolder"]>
+
+  export type ProjectFolderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    name?: boolean
+    is_open?: boolean
+    position?: boolean
+    created_at?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectFolder"]>
+
+  export type ProjectFolderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    name?: boolean
+    is_open?: boolean
+    position?: boolean
+    created_at?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectFolder"]>
+
+  export type ProjectFolderSelectScalar = {
+    id?: boolean
+    user_id?: boolean
+    name?: boolean
+    is_open?: boolean
+    position?: boolean
+    created_at?: boolean
+  }
+
+  export type ProjectFolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "name" | "is_open" | "position" | "created_at", ExtArgs["result"]["projectFolder"]>
+  export type ProjectFolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    projects?: boolean | ProjectFolder$projectsArgs<ExtArgs>
+    _count?: boolean | ProjectFolderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProjectFolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ProjectFolderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectFolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectFolder"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      projects: Prisma.$ProjectPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      user_id: bigint
+      name: string
+      is_open: boolean
+      position: number
+      created_at: Date
+    }, ExtArgs["result"]["projectFolder"]>
+    composites: {}
+  }
+
+  type ProjectFolderGetPayload<S extends boolean | null | undefined | ProjectFolderDefaultArgs> = $Result.GetResult<Prisma.$ProjectFolderPayload, S>
+
+  type ProjectFolderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProjectFolderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectFolderCountAggregateInputType | true
+    }
+
+  export interface ProjectFolderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectFolder'], meta: { name: 'ProjectFolder' } }
+    /**
+     * Find zero or one ProjectFolder that matches the filter.
+     * @param {ProjectFolderFindUniqueArgs} args - Arguments to find a ProjectFolder
+     * @example
+     * // Get one ProjectFolder
+     * const projectFolder = await prisma.projectFolder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectFolderFindUniqueArgs>(args: SelectSubset<T, ProjectFolderFindUniqueArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProjectFolder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProjectFolderFindUniqueOrThrowArgs} args - Arguments to find a ProjectFolder
+     * @example
+     * // Get one ProjectFolder
+     * const projectFolder = await prisma.projectFolder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectFolderFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectFolderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectFolder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderFindFirstArgs} args - Arguments to find a ProjectFolder
+     * @example
+     * // Get one ProjectFolder
+     * const projectFolder = await prisma.projectFolder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectFolderFindFirstArgs>(args?: SelectSubset<T, ProjectFolderFindFirstArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectFolder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderFindFirstOrThrowArgs} args - Arguments to find a ProjectFolder
+     * @example
+     * // Get one ProjectFolder
+     * const projectFolder = await prisma.projectFolder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectFolderFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectFolderFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProjectFolders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectFolders
+     * const projectFolders = await prisma.projectFolder.findMany()
+     * 
+     * // Get first 10 ProjectFolders
+     * const projectFolders = await prisma.projectFolder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectFolderWithIdOnly = await prisma.projectFolder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectFolderFindManyArgs>(args?: SelectSubset<T, ProjectFolderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProjectFolder.
+     * @param {ProjectFolderCreateArgs} args - Arguments to create a ProjectFolder.
+     * @example
+     * // Create one ProjectFolder
+     * const ProjectFolder = await prisma.projectFolder.create({
+     *   data: {
+     *     // ... data to create a ProjectFolder
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectFolderCreateArgs>(args: SelectSubset<T, ProjectFolderCreateArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProjectFolders.
+     * @param {ProjectFolderCreateManyArgs} args - Arguments to create many ProjectFolders.
+     * @example
+     * // Create many ProjectFolders
+     * const projectFolder = await prisma.projectFolder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectFolderCreateManyArgs>(args?: SelectSubset<T, ProjectFolderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectFolders and returns the data saved in the database.
+     * @param {ProjectFolderCreateManyAndReturnArgs} args - Arguments to create many ProjectFolders.
+     * @example
+     * // Create many ProjectFolders
+     * const projectFolder = await prisma.projectFolder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectFolders and only return the `id`
+     * const projectFolderWithIdOnly = await prisma.projectFolder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectFolderCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectFolderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProjectFolder.
+     * @param {ProjectFolderDeleteArgs} args - Arguments to delete one ProjectFolder.
+     * @example
+     * // Delete one ProjectFolder
+     * const ProjectFolder = await prisma.projectFolder.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectFolder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectFolderDeleteArgs>(args: SelectSubset<T, ProjectFolderDeleteArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProjectFolder.
+     * @param {ProjectFolderUpdateArgs} args - Arguments to update one ProjectFolder.
+     * @example
+     * // Update one ProjectFolder
+     * const projectFolder = await prisma.projectFolder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectFolderUpdateArgs>(args: SelectSubset<T, ProjectFolderUpdateArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProjectFolders.
+     * @param {ProjectFolderDeleteManyArgs} args - Arguments to filter ProjectFolders to delete.
+     * @example
+     * // Delete a few ProjectFolders
+     * const { count } = await prisma.projectFolder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectFolderDeleteManyArgs>(args?: SelectSubset<T, ProjectFolderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectFolders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectFolders
+     * const projectFolder = await prisma.projectFolder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectFolderUpdateManyArgs>(args: SelectSubset<T, ProjectFolderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectFolders and returns the data updated in the database.
+     * @param {ProjectFolderUpdateManyAndReturnArgs} args - Arguments to update many ProjectFolders.
+     * @example
+     * // Update many ProjectFolders
+     * const projectFolder = await prisma.projectFolder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProjectFolders and only return the `id`
+     * const projectFolderWithIdOnly = await prisma.projectFolder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProjectFolderUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectFolderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProjectFolder.
+     * @param {ProjectFolderUpsertArgs} args - Arguments to update or create a ProjectFolder.
+     * @example
+     * // Update or create a ProjectFolder
+     * const projectFolder = await prisma.projectFolder.upsert({
+     *   create: {
+     *     // ... data to create a ProjectFolder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectFolder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectFolderUpsertArgs>(args: SelectSubset<T, ProjectFolderUpsertArgs<ExtArgs>>): Prisma__ProjectFolderClient<$Result.GetResult<Prisma.$ProjectFolderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProjectFolders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderCountArgs} args - Arguments to filter ProjectFolders to count.
+     * @example
+     * // Count the number of ProjectFolders
+     * const count = await prisma.projectFolder.count({
+     *   where: {
+     *     // ... the filter for the ProjectFolders we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectFolderCountArgs>(
+      args?: Subset<T, ProjectFolderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectFolderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectFolder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectFolderAggregateArgs>(args: Subset<T, ProjectFolderAggregateArgs>): Prisma.PrismaPromise<GetProjectFolderAggregateType<T>>
+
+    /**
+     * Group by ProjectFolder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectFolderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectFolderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectFolderGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectFolderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectFolderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectFolderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectFolder model
+   */
+  readonly fields: ProjectFolderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectFolder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectFolderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    projects<T extends ProjectFolder$projectsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectFolder$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectFolder model
+   */
+  interface ProjectFolderFieldRefs {
+    readonly id: FieldRef<"ProjectFolder", 'BigInt'>
+    readonly user_id: FieldRef<"ProjectFolder", 'BigInt'>
+    readonly name: FieldRef<"ProjectFolder", 'String'>
+    readonly is_open: FieldRef<"ProjectFolder", 'Boolean'>
+    readonly position: FieldRef<"ProjectFolder", 'Int'>
+    readonly created_at: FieldRef<"ProjectFolder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectFolder findUnique
+   */
+  export type ProjectFolderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectFolder to fetch.
+     */
+    where: ProjectFolderWhereUniqueInput
+  }
+
+  /**
+   * ProjectFolder findUniqueOrThrow
+   */
+  export type ProjectFolderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectFolder to fetch.
+     */
+    where: ProjectFolderWhereUniqueInput
+  }
+
+  /**
+   * ProjectFolder findFirst
+   */
+  export type ProjectFolderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectFolder to fetch.
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectFolders to fetch.
+     */
+    orderBy?: ProjectFolderOrderByWithRelationInput | ProjectFolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectFolders.
+     */
+    cursor?: ProjectFolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectFolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectFolders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectFolders.
+     */
+    distinct?: ProjectFolderScalarFieldEnum | ProjectFolderScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectFolder findFirstOrThrow
+   */
+  export type ProjectFolderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectFolder to fetch.
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectFolders to fetch.
+     */
+    orderBy?: ProjectFolderOrderByWithRelationInput | ProjectFolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectFolders.
+     */
+    cursor?: ProjectFolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectFolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectFolders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectFolders.
+     */
+    distinct?: ProjectFolderScalarFieldEnum | ProjectFolderScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectFolder findMany
+   */
+  export type ProjectFolderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectFolders to fetch.
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectFolders to fetch.
+     */
+    orderBy?: ProjectFolderOrderByWithRelationInput | ProjectFolderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectFolders.
+     */
+    cursor?: ProjectFolderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectFolders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectFolders.
+     */
+    skip?: number
+    distinct?: ProjectFolderScalarFieldEnum | ProjectFolderScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectFolder create
+   */
+  export type ProjectFolderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectFolder.
+     */
+    data: XOR<ProjectFolderCreateInput, ProjectFolderUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectFolder createMany
+   */
+  export type ProjectFolderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectFolders.
+     */
+    data: ProjectFolderCreateManyInput | ProjectFolderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectFolder createManyAndReturn
+   */
+  export type ProjectFolderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProjectFolders.
+     */
+    data: ProjectFolderCreateManyInput | ProjectFolderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectFolder update
+   */
+  export type ProjectFolderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectFolder.
+     */
+    data: XOR<ProjectFolderUpdateInput, ProjectFolderUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectFolder to update.
+     */
+    where: ProjectFolderWhereUniqueInput
+  }
+
+  /**
+   * ProjectFolder updateMany
+   */
+  export type ProjectFolderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectFolders.
+     */
+    data: XOR<ProjectFolderUpdateManyMutationInput, ProjectFolderUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectFolders to update
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * Limit how many ProjectFolders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectFolder updateManyAndReturn
+   */
+  export type ProjectFolderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * The data used to update ProjectFolders.
+     */
+    data: XOR<ProjectFolderUpdateManyMutationInput, ProjectFolderUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectFolders to update
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * Limit how many ProjectFolders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectFolder upsert
+   */
+  export type ProjectFolderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectFolder to update in case it exists.
+     */
+    where: ProjectFolderWhereUniqueInput
+    /**
+     * In case the ProjectFolder found by the `where` argument doesn't exist, create a new ProjectFolder with this data.
+     */
+    create: XOR<ProjectFolderCreateInput, ProjectFolderUncheckedCreateInput>
+    /**
+     * In case the ProjectFolder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectFolderUpdateInput, ProjectFolderUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectFolder delete
+   */
+  export type ProjectFolderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectFolder to delete.
+     */
+    where: ProjectFolderWhereUniqueInput
+  }
+
+  /**
+   * ProjectFolder deleteMany
+   */
+  export type ProjectFolderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectFolders to delete
+     */
+    where?: ProjectFolderWhereInput
+    /**
+     * Limit how many ProjectFolders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectFolder.projects
+   */
+  export type ProjectFolder$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectFolder without action
+   */
+  export type ProjectFolderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectFolder
+     */
+    select?: ProjectFolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectFolder
+     */
+    omit?: ProjectFolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectFolderInclude<ExtArgs> | null
   }
 
 
@@ -19237,6 +20600,8 @@ export namespace Prisma {
   export const ProjectScalarFieldEnum: {
     id: 'id',
     user_id: 'user_id',
+    folder_id: 'folder_id',
+    position: 'position',
     name: 'name',
     description: 'description',
     icon: 'icon',
@@ -19245,6 +20610,18 @@ export namespace Prisma {
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+  export const ProjectFolderScalarFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    name: 'name',
+    is_open: 'is_open',
+    position: 'position',
+    created_at: 'created_at'
+  };
+
+  export type ProjectFolderScalarFieldEnum = (typeof ProjectFolderScalarFieldEnum)[keyof typeof ProjectFolderScalarFieldEnum]
 
 
   export const ChatScalarFieldEnum: {
@@ -19412,13 +20789,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -19429,6 +20799,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -19464,6 +20841,7 @@ export namespace Prisma {
     oauths?: UserOAuthListRelationFilter
     sessions?: SessionListRelationFilter
     projects?: ProjectListRelationFilter
+    projectFolders?: ProjectFolderListRelationFilter
     chats_owned?: ChatListRelationFilter
     chats?: UserChatProjectListRelationFilter
     chat_members?: ChatMemberListRelationFilter
@@ -19483,6 +20861,7 @@ export namespace Prisma {
     oauths?: UserOAuthOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
+    projectFolders?: ProjectFolderOrderByRelationAggregateInput
     chats_owned?: ChatOrderByRelationAggregateInput
     chats?: UserChatProjectOrderByRelationAggregateInput
     chat_members?: ChatMemberOrderByRelationAggregateInput
@@ -19505,6 +20884,7 @@ export namespace Prisma {
     oauths?: UserOAuthListRelationFilter
     sessions?: SessionListRelationFilter
     projects?: ProjectListRelationFilter
+    projectFolders?: ProjectFolderListRelationFilter
     chats_owned?: ChatListRelationFilter
     chats?: UserChatProjectListRelationFilter
     chat_members?: ChatMemberListRelationFilter
@@ -19801,24 +21181,30 @@ export namespace Prisma {
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     id?: BigIntFilter<"Project"> | bigint | number
     user_id?: BigIntFilter<"Project"> | bigint | number
+    folder_id?: BigIntNullableFilter<"Project"> | bigint | number | null
+    position?: IntFilter<"Project"> | number
     name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     icon?: StringNullableFilter<"Project"> | string | null
     color?: StringNullableFilter<"Project"> | string | null
     created_at?: DateTimeFilter<"Project"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    folder?: XOR<ProjectFolderNullableScalarRelationFilter, ProjectFolderWhereInput> | null
     chat_assignments?: UserChatProjectListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrderInput | SortOrder
+    position?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     icon?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     created_at?: SortOrder
     user?: UserOrderByWithRelationInput
+    folder?: ProjectFolderOrderByWithRelationInput
     chat_assignments?: UserChatProjectOrderByRelationAggregateInput
   }
 
@@ -19828,18 +21214,23 @@ export namespace Prisma {
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     user_id?: BigIntFilter<"Project"> | bigint | number
+    folder_id?: BigIntNullableFilter<"Project"> | bigint | number | null
+    position?: IntFilter<"Project"> | number
     name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     icon?: StringNullableFilter<"Project"> | string | null
     color?: StringNullableFilter<"Project"> | string | null
     created_at?: DateTimeFilter<"Project"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    folder?: XOR<ProjectFolderNullableScalarRelationFilter, ProjectFolderWhereInput> | null
     chat_assignments?: UserChatProjectListRelationFilter
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrderInput | SortOrder
+    position?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     icon?: SortOrderInput | SortOrder
@@ -19858,11 +21249,78 @@ export namespace Prisma {
     NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Project"> | bigint | number
     user_id?: BigIntWithAggregatesFilter<"Project"> | bigint | number
+    folder_id?: BigIntNullableWithAggregatesFilter<"Project"> | bigint | number | null
+    position?: IntWithAggregatesFilter<"Project"> | number
     name?: StringWithAggregatesFilter<"Project"> | string
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
     icon?: StringNullableWithAggregatesFilter<"Project"> | string | null
     color?: StringNullableWithAggregatesFilter<"Project"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+  }
+
+  export type ProjectFolderWhereInput = {
+    AND?: ProjectFolderWhereInput | ProjectFolderWhereInput[]
+    OR?: ProjectFolderWhereInput[]
+    NOT?: ProjectFolderWhereInput | ProjectFolderWhereInput[]
+    id?: BigIntFilter<"ProjectFolder"> | bigint | number
+    user_id?: BigIntFilter<"ProjectFolder"> | bigint | number
+    name?: StringFilter<"ProjectFolder"> | string
+    is_open?: BoolFilter<"ProjectFolder"> | boolean
+    position?: IntFilter<"ProjectFolder"> | number
+    created_at?: DateTimeFilter<"ProjectFolder"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    projects?: ProjectListRelationFilter
+  }
+
+  export type ProjectFolderOrderByWithRelationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    name?: SortOrder
+    is_open?: SortOrder
+    position?: SortOrder
+    created_at?: SortOrder
+    user?: UserOrderByWithRelationInput
+    projects?: ProjectOrderByRelationAggregateInput
+  }
+
+  export type ProjectFolderWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: ProjectFolderWhereInput | ProjectFolderWhereInput[]
+    OR?: ProjectFolderWhereInput[]
+    NOT?: ProjectFolderWhereInput | ProjectFolderWhereInput[]
+    user_id?: BigIntFilter<"ProjectFolder"> | bigint | number
+    name?: StringFilter<"ProjectFolder"> | string
+    is_open?: BoolFilter<"ProjectFolder"> | boolean
+    position?: IntFilter<"ProjectFolder"> | number
+    created_at?: DateTimeFilter<"ProjectFolder"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    projects?: ProjectListRelationFilter
+  }, "id">
+
+  export type ProjectFolderOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    name?: SortOrder
+    is_open?: SortOrder
+    position?: SortOrder
+    created_at?: SortOrder
+    _count?: ProjectFolderCountOrderByAggregateInput
+    _avg?: ProjectFolderAvgOrderByAggregateInput
+    _max?: ProjectFolderMaxOrderByAggregateInput
+    _min?: ProjectFolderMinOrderByAggregateInput
+    _sum?: ProjectFolderSumOrderByAggregateInput
+  }
+
+  export type ProjectFolderScalarWhereWithAggregatesInput = {
+    AND?: ProjectFolderScalarWhereWithAggregatesInput | ProjectFolderScalarWhereWithAggregatesInput[]
+    OR?: ProjectFolderScalarWhereWithAggregatesInput[]
+    NOT?: ProjectFolderScalarWhereWithAggregatesInput | ProjectFolderScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"ProjectFolder"> | bigint | number
+    user_id?: BigIntWithAggregatesFilter<"ProjectFolder"> | bigint | number
+    name?: StringWithAggregatesFilter<"ProjectFolder"> | string
+    is_open?: BoolWithAggregatesFilter<"ProjectFolder"> | boolean
+    position?: IntWithAggregatesFilter<"ProjectFolder"> | number
+    created_at?: DateTimeWithAggregatesFilter<"ProjectFolder"> | Date | string
   }
 
   export type ChatWhereInput = {
@@ -20387,6 +21845,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -20406,6 +21865,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -20425,6 +21885,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -20444,6 +21905,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -20746,18 +22208,22 @@ export namespace Prisma {
 
   export type ProjectCreateInput = {
     id?: bigint | number
+    position: number
     name: string
     description?: string | null
     icon?: string | null
     color?: string | null
     created_at?: Date | string
     user: UserCreateNestedOneWithoutProjectsInput
+    folder?: ProjectFolderCreateNestedOneWithoutProjectsInput
     chat_assignments?: UserChatProjectCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
     id?: bigint | number
     user_id: bigint | number
+    folder_id?: bigint | number | null
+    position: number
     name: string
     description?: string | null
     icon?: string | null
@@ -20768,18 +22234,22 @@ export namespace Prisma {
 
   export type ProjectUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    folder?: ProjectFolderUpdateOneWithoutProjectsNestedInput
     chat_assignments?: UserChatProjectUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20791,6 +22261,8 @@ export namespace Prisma {
   export type ProjectCreateManyInput = {
     id?: bigint | number
     user_id: bigint | number
+    folder_id?: bigint | number | null
+    position: number
     name: string
     description?: string | null
     icon?: string | null
@@ -20800,6 +22272,7 @@ export namespace Prisma {
 
   export type ProjectUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20810,10 +22283,78 @@ export namespace Prisma {
   export type ProjectUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectFolderCreateInput = {
+    id?: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+    user: UserCreateNestedOneWithoutProjectFoldersInput
+    projects?: ProjectCreateNestedManyWithoutFolderInput
+  }
+
+  export type ProjectFolderUncheckedCreateInput = {
+    id?: bigint | number
+    user_id: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type ProjectFolderUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectFoldersNestedInput
+    projects?: ProjectUpdateManyWithoutFolderNestedInput
+  }
+
+  export type ProjectFolderUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type ProjectFolderCreateManyInput = {
+    id?: bigint | number
+    user_id: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+  }
+
+  export type ProjectFolderUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectFolderUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21377,6 +22918,12 @@ export namespace Prisma {
     none?: ProjectWhereInput
   }
 
+  export type ProjectFolderListRelationFilter = {
+    every?: ProjectFolderWhereInput
+    some?: ProjectFolderWhereInput
+    none?: ProjectFolderWhereInput
+  }
+
   export type ChatListRelationFilter = {
     every?: ChatWhereInput
     some?: ChatWhereInput
@@ -21420,6 +22967,10 @@ export namespace Prisma {
   }
 
   export type ProjectOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectFolderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21743,9 +23294,27 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type ProjectFolderNullableScalarRelationFilter = {
+    is?: ProjectFolderWhereInput | null
+    isNot?: ProjectFolderWhereInput | null
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrder
+    position?: SortOrder
     name?: SortOrder
     description?: SortOrder
     icon?: SortOrder
@@ -21756,11 +23325,15 @@ export namespace Prisma {
   export type ProjectAvgOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrder
+    position?: SortOrder
   }
 
   export type ProjectMaxOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrder
+    position?: SortOrder
     name?: SortOrder
     description?: SortOrder
     icon?: SortOrder
@@ -21771,6 +23344,8 @@ export namespace Prisma {
   export type ProjectMinOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrder
+    position?: SortOrder
     name?: SortOrder
     description?: SortOrder
     icon?: SortOrder
@@ -21781,11 +23356,76 @@ export namespace Prisma {
   export type ProjectSumOrderByAggregateInput = {
     id?: SortOrder
     user_id?: SortOrder
+    folder_id?: SortOrder
+    position?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ProjectFolderCountOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    name?: SortOrder
+    is_open?: SortOrder
+    position?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ProjectFolderAvgOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    position?: SortOrder
+  }
+
+  export type ProjectFolderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    name?: SortOrder
+    is_open?: SortOrder
+    position?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ProjectFolderMinOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    name?: SortOrder
+    is_open?: SortOrder
+    position?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ProjectFolderSumOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    position?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ChatMetadataNullableScalarRelationFilter = {
@@ -21835,14 +23475,6 @@ export namespace Prisma {
     owner_id?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type ChatScalarRelationFilter = {
     is?: ChatWhereInput
     isNot?: ChatWhereInput
@@ -21888,17 +23520,6 @@ export namespace Prisma {
     project_id?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type ChatMemberCountOrderByAggregateInput = {
     id?: SortOrder
     room_id?: SortOrder
@@ -21935,22 +23556,6 @@ export namespace Prisma {
     room_id?: SortOrder
     user_id?: SortOrder
     role?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type ThreadCountOrderByAggregateInput = {
@@ -22204,6 +23809,13 @@ export namespace Prisma {
     connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
+  export type ProjectFolderCreateNestedManyWithoutUserInput = {
+    create?: XOR<ProjectFolderCreateWithoutUserInput, ProjectFolderUncheckedCreateWithoutUserInput> | ProjectFolderCreateWithoutUserInput[] | ProjectFolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectFolderCreateOrConnectWithoutUserInput | ProjectFolderCreateOrConnectWithoutUserInput[]
+    createMany?: ProjectFolderCreateManyUserInputEnvelope
+    connect?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+  }
+
   export type ChatCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ChatCreateWithoutOwnerInput, ChatUncheckedCreateWithoutOwnerInput> | ChatCreateWithoutOwnerInput[] | ChatUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutOwnerInput | ChatCreateOrConnectWithoutOwnerInput[]
@@ -22263,6 +23875,13 @@ export namespace Prisma {
     connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
     createMany?: ProjectCreateManyUserInputEnvelope
     connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type ProjectFolderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ProjectFolderCreateWithoutUserInput, ProjectFolderUncheckedCreateWithoutUserInput> | ProjectFolderCreateWithoutUserInput[] | ProjectFolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectFolderCreateOrConnectWithoutUserInput | ProjectFolderCreateOrConnectWithoutUserInput[]
+    createMany?: ProjectFolderCreateManyUserInputEnvelope
+    connect?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
   }
 
   export type ChatUncheckedCreateNestedManyWithoutOwnerInput = {
@@ -22373,6 +23992,20 @@ export namespace Prisma {
     update?: ProjectUpdateWithWhereUniqueWithoutUserInput | ProjectUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ProjectUpdateManyWithWhereWithoutUserInput | ProjectUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type ProjectFolderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ProjectFolderCreateWithoutUserInput, ProjectFolderUncheckedCreateWithoutUserInput> | ProjectFolderCreateWithoutUserInput[] | ProjectFolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectFolderCreateOrConnectWithoutUserInput | ProjectFolderCreateOrConnectWithoutUserInput[]
+    upsert?: ProjectFolderUpsertWithWhereUniqueWithoutUserInput | ProjectFolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ProjectFolderCreateManyUserInputEnvelope
+    set?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    disconnect?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    delete?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    connect?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    update?: ProjectFolderUpdateWithWhereUniqueWithoutUserInput | ProjectFolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ProjectFolderUpdateManyWithWhereWithoutUserInput | ProjectFolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ProjectFolderScalarWhereInput | ProjectFolderScalarWhereInput[]
   }
 
   export type ChatUpdateManyWithoutOwnerNestedInput = {
@@ -22491,6 +24124,20 @@ export namespace Prisma {
     update?: ProjectUpdateWithWhereUniqueWithoutUserInput | ProjectUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ProjectUpdateManyWithWhereWithoutUserInput | ProjectUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type ProjectFolderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ProjectFolderCreateWithoutUserInput, ProjectFolderUncheckedCreateWithoutUserInput> | ProjectFolderCreateWithoutUserInput[] | ProjectFolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectFolderCreateOrConnectWithoutUserInput | ProjectFolderCreateOrConnectWithoutUserInput[]
+    upsert?: ProjectFolderUpsertWithWhereUniqueWithoutUserInput | ProjectFolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ProjectFolderCreateManyUserInputEnvelope
+    set?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    disconnect?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    delete?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    connect?: ProjectFolderWhereUniqueInput | ProjectFolderWhereUniqueInput[]
+    update?: ProjectFolderUpdateWithWhereUniqueWithoutUserInput | ProjectFolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ProjectFolderUpdateManyWithWhereWithoutUserInput | ProjectFolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ProjectFolderScalarWhereInput | ProjectFolderScalarWhereInput[]
   }
 
   export type ChatUncheckedUpdateManyWithoutOwnerNestedInput = {
@@ -22615,6 +24262,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ProjectFolderCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<ProjectFolderCreateWithoutProjectsInput, ProjectFolderUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: ProjectFolderCreateOrConnectWithoutProjectsInput
+    connect?: ProjectFolderWhereUniqueInput
+  }
+
   export type UserChatProjectCreateNestedManyWithoutProjectInput = {
     create?: XOR<UserChatProjectCreateWithoutProjectInput, UserChatProjectUncheckedCreateWithoutProjectInput> | UserChatProjectCreateWithoutProjectInput[] | UserChatProjectUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: UserChatProjectCreateOrConnectWithoutProjectInput | UserChatProjectCreateOrConnectWithoutProjectInput[]
@@ -22629,12 +24282,30 @@ export namespace Prisma {
     connect?: UserChatProjectWhereUniqueInput | UserChatProjectWhereUniqueInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
     create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
     upsert?: UserUpsertWithoutProjectsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectsInput, UserUpdateWithoutProjectsInput>, UserUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type ProjectFolderUpdateOneWithoutProjectsNestedInput = {
+    create?: XOR<ProjectFolderCreateWithoutProjectsInput, ProjectFolderUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: ProjectFolderCreateOrConnectWithoutProjectsInput
+    upsert?: ProjectFolderUpsertWithoutProjectsInput
+    disconnect?: ProjectFolderWhereInput | boolean
+    delete?: ProjectFolderWhereInput | boolean
+    connect?: ProjectFolderWhereUniqueInput
+    update?: XOR<XOR<ProjectFolderUpdateToOneWithWhereWithoutProjectsInput, ProjectFolderUpdateWithoutProjectsInput>, ProjectFolderUncheckedUpdateWithoutProjectsInput>
   }
 
   export type UserChatProjectUpdateManyWithoutProjectNestedInput = {
@@ -22663,6 +24334,66 @@ export namespace Prisma {
     update?: UserChatProjectUpdateWithWhereUniqueWithoutProjectInput | UserChatProjectUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: UserChatProjectUpdateManyWithWhereWithoutProjectInput | UserChatProjectUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: UserChatProjectScalarWhereInput | UserChatProjectScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutProjectFoldersInput = {
+    create?: XOR<UserCreateWithoutProjectFoldersInput, UserUncheckedCreateWithoutProjectFoldersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectFoldersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedManyWithoutFolderInput = {
+    create?: XOR<ProjectCreateWithoutFolderInput, ProjectUncheckedCreateWithoutFolderInput> | ProjectCreateWithoutFolderInput[] | ProjectUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutFolderInput | ProjectCreateOrConnectWithoutFolderInput[]
+    createMany?: ProjectCreateManyFolderInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type ProjectUncheckedCreateNestedManyWithoutFolderInput = {
+    create?: XOR<ProjectCreateWithoutFolderInput, ProjectUncheckedCreateWithoutFolderInput> | ProjectCreateWithoutFolderInput[] | ProjectUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutFolderInput | ProjectCreateOrConnectWithoutFolderInput[]
+    createMany?: ProjectCreateManyFolderInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type UserUpdateOneRequiredWithoutProjectFoldersNestedInput = {
+    create?: XOR<UserCreateWithoutProjectFoldersInput, UserUncheckedCreateWithoutProjectFoldersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectFoldersInput
+    upsert?: UserUpsertWithoutProjectFoldersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectFoldersInput, UserUpdateWithoutProjectFoldersInput>, UserUncheckedUpdateWithoutProjectFoldersInput>
+  }
+
+  export type ProjectUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<ProjectCreateWithoutFolderInput, ProjectUncheckedCreateWithoutFolderInput> | ProjectCreateWithoutFolderInput[] | ProjectUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutFolderInput | ProjectCreateOrConnectWithoutFolderInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutFolderInput | ProjectUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: ProjectCreateManyFolderInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutFolderInput | ProjectUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutFolderInput | ProjectUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<ProjectCreateWithoutFolderInput, ProjectUncheckedCreateWithoutFolderInput> | ProjectCreateWithoutFolderInput[] | ProjectUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutFolderInput | ProjectCreateOrConnectWithoutFolderInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutFolderInput | ProjectUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: ProjectCreateManyFolderInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutFolderInput | ProjectUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutFolderInput | ProjectUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
   export type ThreadCreateNestedManyWithoutRoomInput = {
@@ -22735,10 +24466,6 @@ export namespace Prisma {
     create?: XOR<ChatContextCreateWithoutChatInput, ChatContextUncheckedCreateWithoutChatInput>
     connectOrCreate?: ChatContextCreateOrConnectWithoutChatInput
     connect?: ChatContextWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type ThreadUpdateManyWithoutRoomNestedInput = {
@@ -22925,14 +24652,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutChat_membersInput, UserUncheckedCreateWithoutChat_membersInput>
     connectOrCreate?: UserCreateOrConnectWithoutChat_membersInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type ChatUpdateOneRequiredWithoutChat_membersNestedInput = {
@@ -23295,19 +25014,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23322,6 +25028,19 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -23425,16 +25144,20 @@ export namespace Prisma {
 
   export type ProjectCreateWithoutUserInput = {
     id?: bigint | number
+    position: number
     name: string
     description?: string | null
     icon?: string | null
     color?: string | null
     created_at?: Date | string
+    folder?: ProjectFolderCreateNestedOneWithoutProjectsInput
     chat_assignments?: UserChatProjectCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutUserInput = {
     id?: bigint | number
+    folder_id?: bigint | number | null
+    position: number
     name: string
     description?: string | null
     icon?: string | null
@@ -23450,6 +25173,34 @@ export namespace Prisma {
 
   export type ProjectCreateManyUserInputEnvelope = {
     data: ProjectCreateManyUserInput | ProjectCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectFolderCreateWithoutUserInput = {
+    id?: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+    projects?: ProjectCreateNestedManyWithoutFolderInput
+  }
+
+  export type ProjectFolderUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type ProjectFolderCreateOrConnectWithoutUserInput = {
+    where: ProjectFolderWhereUniqueInput
+    create: XOR<ProjectFolderCreateWithoutUserInput, ProjectFolderUncheckedCreateWithoutUserInput>
+  }
+
+  export type ProjectFolderCreateManyUserInputEnvelope = {
+    data: ProjectFolderCreateManyUserInput | ProjectFolderCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -23681,11 +25432,41 @@ export namespace Prisma {
     NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
     id?: BigIntFilter<"Project"> | bigint | number
     user_id?: BigIntFilter<"Project"> | bigint | number
+    folder_id?: BigIntNullableFilter<"Project"> | bigint | number | null
+    position?: IntFilter<"Project"> | number
     name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     icon?: StringNullableFilter<"Project"> | string | null
     color?: StringNullableFilter<"Project"> | string | null
     created_at?: DateTimeFilter<"Project"> | Date | string
+  }
+
+  export type ProjectFolderUpsertWithWhereUniqueWithoutUserInput = {
+    where: ProjectFolderWhereUniqueInput
+    update: XOR<ProjectFolderUpdateWithoutUserInput, ProjectFolderUncheckedUpdateWithoutUserInput>
+    create: XOR<ProjectFolderCreateWithoutUserInput, ProjectFolderUncheckedCreateWithoutUserInput>
+  }
+
+  export type ProjectFolderUpdateWithWhereUniqueWithoutUserInput = {
+    where: ProjectFolderWhereUniqueInput
+    data: XOR<ProjectFolderUpdateWithoutUserInput, ProjectFolderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ProjectFolderUpdateManyWithWhereWithoutUserInput = {
+    where: ProjectFolderScalarWhereInput
+    data: XOR<ProjectFolderUpdateManyMutationInput, ProjectFolderUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ProjectFolderScalarWhereInput = {
+    AND?: ProjectFolderScalarWhereInput | ProjectFolderScalarWhereInput[]
+    OR?: ProjectFolderScalarWhereInput[]
+    NOT?: ProjectFolderScalarWhereInput | ProjectFolderScalarWhereInput[]
+    id?: BigIntFilter<"ProjectFolder"> | bigint | number
+    user_id?: BigIntFilter<"ProjectFolder"> | bigint | number
+    name?: StringFilter<"ProjectFolder"> | string
+    is_open?: BoolFilter<"ProjectFolder"> | boolean
+    position?: IntFilter<"ProjectFolder"> | number
+    created_at?: DateTimeFilter<"ProjectFolder"> | Date | string
   }
 
   export type ChatUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -23828,6 +25609,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -23846,6 +25628,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -23880,6 +25663,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -23898,6 +25682,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -23916,6 +25701,7 @@ export namespace Prisma {
     password?: UserPasswordCreateNestedOneWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -23934,6 +25720,7 @@ export namespace Prisma {
     password?: UserPasswordUncheckedCreateNestedOneWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -23968,6 +25755,7 @@ export namespace Prisma {
     password?: UserPasswordUpdateOneWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -23986,6 +25774,7 @@ export namespace Prisma {
     password?: UserPasswordUncheckedUpdateOneWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -24004,6 +25793,7 @@ export namespace Prisma {
     password?: UserPasswordCreateNestedOneWithoutUserInput
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -24022,6 +25812,7 @@ export namespace Prisma {
     password?: UserPasswordUncheckedCreateNestedOneWithoutUserInput
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -24056,6 +25847,7 @@ export namespace Prisma {
     password?: UserPasswordUpdateOneWithoutUserNestedInput
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -24074,6 +25866,7 @@ export namespace Prisma {
     password?: UserPasswordUncheckedUpdateOneWithoutUserNestedInput
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -24092,6 +25885,7 @@ export namespace Prisma {
     password?: UserPasswordCreateNestedOneWithoutUserInput
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -24110,6 +25904,7 @@ export namespace Prisma {
     password?: UserPasswordUncheckedCreateNestedOneWithoutUserInput
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -24120,6 +25915,29 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutProjectsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type ProjectFolderCreateWithoutProjectsInput = {
+    id?: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+    user: UserCreateNestedOneWithoutProjectFoldersInput
+  }
+
+  export type ProjectFolderUncheckedCreateWithoutProjectsInput = {
+    id?: bigint | number
+    user_id: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
+    created_at?: Date | string
+  }
+
+  export type ProjectFolderCreateOrConnectWithoutProjectsInput = {
+    where: ProjectFolderWhereUniqueInput
+    create: XOR<ProjectFolderCreateWithoutProjectsInput, ProjectFolderUncheckedCreateWithoutProjectsInput>
   }
 
   export type UserChatProjectCreateWithoutProjectInput = {
@@ -24166,6 +25984,7 @@ export namespace Prisma {
     password?: UserPasswordUpdateOneWithoutUserNestedInput
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -24184,11 +26003,41 @@ export namespace Prisma {
     password?: UserPasswordUncheckedUpdateOneWithoutUserNestedInput
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUncheckedUpdateManyWithoutCreatorNestedInput
     metadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type ProjectFolderUpsertWithoutProjectsInput = {
+    update: XOR<ProjectFolderUpdateWithoutProjectsInput, ProjectFolderUncheckedUpdateWithoutProjectsInput>
+    create: XOR<ProjectFolderCreateWithoutProjectsInput, ProjectFolderUncheckedCreateWithoutProjectsInput>
+    where?: ProjectFolderWhereInput
+  }
+
+  export type ProjectFolderUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: ProjectFolderWhereInput
+    data: XOR<ProjectFolderUpdateWithoutProjectsInput, ProjectFolderUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type ProjectFolderUpdateWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectFoldersNestedInput
+  }
+
+  export type ProjectFolderUncheckedUpdateWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserChatProjectUpsertWithWhereUniqueWithoutProjectInput = {
@@ -24205,6 +26054,148 @@ export namespace Prisma {
   export type UserChatProjectUpdateManyWithWhereWithoutProjectInput = {
     where: UserChatProjectScalarWhereInput
     data: XOR<UserChatProjectUpdateManyMutationInput, UserChatProjectUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type UserCreateWithoutProjectFoldersInput = {
+    id?: bigint | number
+    email: string
+    emailVerified?: Date | string | null
+    username: string
+    name?: string | null
+    avatar_url?: string | null
+    created_at?: Date | string
+    password?: UserPasswordCreateNestedOneWithoutUserInput
+    oauths?: UserOAuthCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
+    chats_owned?: ChatCreateNestedManyWithoutOwnerInput
+    chats?: UserChatProjectCreateNestedManyWithoutUserInput
+    chat_members?: ChatMemberCreateNestedManyWithoutUserInput
+    threads_created?: ThreadCreateNestedManyWithoutCreatorInput
+    metadata?: UserMetadataCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutProjectFoldersInput = {
+    id?: bigint | number
+    email: string
+    emailVerified?: Date | string | null
+    username: string
+    name?: string | null
+    avatar_url?: string | null
+    created_at?: Date | string
+    password?: UserPasswordUncheckedCreateNestedOneWithoutUserInput
+    oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
+    chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
+    chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
+    threads_created?: ThreadUncheckedCreateNestedManyWithoutCreatorInput
+    metadata?: UserMetadataUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutProjectFoldersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProjectFoldersInput, UserUncheckedCreateWithoutProjectFoldersInput>
+  }
+
+  export type ProjectCreateWithoutFolderInput = {
+    id?: bigint | number
+    position: number
+    name: string
+    description?: string | null
+    icon?: string | null
+    color?: string | null
+    created_at?: Date | string
+    user: UserCreateNestedOneWithoutProjectsInput
+    chat_assignments?: UserChatProjectCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutFolderInput = {
+    id?: bigint | number
+    user_id: bigint | number
+    position: number
+    name: string
+    description?: string | null
+    icon?: string | null
+    color?: string | null
+    created_at?: Date | string
+    chat_assignments?: UserChatProjectUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutFolderInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutFolderInput, ProjectUncheckedCreateWithoutFolderInput>
+  }
+
+  export type ProjectCreateManyFolderInputEnvelope = {
+    data: ProjectCreateManyFolderInput | ProjectCreateManyFolderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutProjectFoldersInput = {
+    update: XOR<UserUpdateWithoutProjectFoldersInput, UserUncheckedUpdateWithoutProjectFoldersInput>
+    create: XOR<UserCreateWithoutProjectFoldersInput, UserUncheckedCreateWithoutProjectFoldersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProjectFoldersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProjectFoldersInput, UserUncheckedUpdateWithoutProjectFoldersInput>
+  }
+
+  export type UserUpdateWithoutProjectFoldersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: UserPasswordUpdateOneWithoutUserNestedInput
+    oauths?: UserOAuthUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
+    chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
+    chats?: UserChatProjectUpdateManyWithoutUserNestedInput
+    chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
+    threads_created?: ThreadUpdateManyWithoutCreatorNestedInput
+    metadata?: UserMetadataUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutProjectFoldersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    username?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: UserPasswordUncheckedUpdateOneWithoutUserNestedInput
+    oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
+    chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
+    chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
+    threads_created?: ThreadUncheckedUpdateManyWithoutCreatorNestedInput
+    metadata?: UserMetadataUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type ProjectUpsertWithWhereUniqueWithoutFolderInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutFolderInput, ProjectUncheckedUpdateWithoutFolderInput>
+    create: XOR<ProjectCreateWithoutFolderInput, ProjectUncheckedCreateWithoutFolderInput>
+  }
+
+  export type ProjectUpdateWithWhereUniqueWithoutFolderInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutFolderInput, ProjectUncheckedUpdateWithoutFolderInput>
+  }
+
+  export type ProjectUpdateManyWithWhereWithoutFolderInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutFolderInput>
   }
 
   export type ThreadCreateWithoutRoomInput = {
@@ -24289,6 +26280,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
     threads_created?: ThreadCreateNestedManyWithoutCreatorInput
@@ -24307,6 +26299,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
     threads_created?: ThreadUncheckedCreateNestedManyWithoutCreatorInput
@@ -24421,6 +26414,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUpdateManyWithoutCreatorNestedInput
@@ -24439,6 +26433,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUncheckedUpdateManyWithoutCreatorNestedInput
@@ -24501,6 +26496,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
     threads_created?: ThreadCreateNestedManyWithoutCreatorInput
@@ -24519,6 +26515,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
     threads_created?: ThreadUncheckedCreateNestedManyWithoutCreatorInput
@@ -24563,17 +26560,21 @@ export namespace Prisma {
 
   export type ProjectCreateWithoutChat_assignmentsInput = {
     id?: bigint | number
+    position: number
     name: string
     description?: string | null
     icon?: string | null
     color?: string | null
     created_at?: Date | string
     user: UserCreateNestedOneWithoutProjectsInput
+    folder?: ProjectFolderCreateNestedOneWithoutProjectsInput
   }
 
   export type ProjectUncheckedCreateWithoutChat_assignmentsInput = {
     id?: bigint | number
     user_id: bigint | number
+    folder_id?: bigint | number | null
+    position: number
     name: string
     description?: string | null
     icon?: string | null
@@ -24609,6 +26610,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUpdateManyWithoutCreatorNestedInput
@@ -24627,6 +26629,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUncheckedUpdateManyWithoutCreatorNestedInput
@@ -24683,17 +26686,21 @@ export namespace Prisma {
 
   export type ProjectUpdateWithoutChat_assignmentsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    folder?: ProjectFolderUpdateOneWithoutProjectsNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutChat_assignmentsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24744,6 +26751,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     threads_created?: ThreadCreateNestedManyWithoutCreatorInput
@@ -24762,6 +26770,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     threads_created?: ThreadUncheckedCreateNestedManyWithoutCreatorInput
@@ -24833,6 +26842,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUpdateManyWithoutCreatorNestedInput
@@ -24851,6 +26861,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     threads_created?: ThreadUncheckedUpdateManyWithoutCreatorNestedInput
@@ -24900,6 +26911,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -24918,6 +26930,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -24989,6 +27002,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -25007,6 +27021,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -25119,6 +27134,7 @@ export namespace Prisma {
     oauths?: UserOAuthCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     projects?: ProjectCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderCreateNestedManyWithoutUserInput
     chats_owned?: ChatCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberCreateNestedManyWithoutUserInput
@@ -25137,6 +27153,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectFolders?: ProjectFolderUncheckedCreateNestedManyWithoutUserInput
     chats_owned?: ChatUncheckedCreateNestedManyWithoutOwnerInput
     chats?: UserChatProjectUncheckedCreateNestedManyWithoutUserInput
     chat_members?: ChatMemberUncheckedCreateNestedManyWithoutUserInput
@@ -25171,6 +27188,7 @@ export namespace Prisma {
     oauths?: UserOAuthUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUpdateManyWithoutUserNestedInput
@@ -25189,6 +27207,7 @@ export namespace Prisma {
     oauths?: UserOAuthUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectFolders?: ProjectFolderUncheckedUpdateManyWithoutUserNestedInput
     chats_owned?: ChatUncheckedUpdateManyWithoutOwnerNestedInput
     chats?: UserChatProjectUncheckedUpdateManyWithoutUserNestedInput
     chat_members?: ChatMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -25357,10 +27376,20 @@ export namespace Prisma {
 
   export type ProjectCreateManyUserInput = {
     id?: bigint | number
+    folder_id?: bigint | number | null
+    position: number
     name: string
     description?: string | null
     icon?: string | null
     color?: string | null
+    created_at?: Date | string
+  }
+
+  export type ProjectFolderCreateManyUserInput = {
+    id?: bigint | number
+    name: string
+    is_open?: boolean
+    position: number
     created_at?: Date | string
   }
 
@@ -25466,16 +27495,20 @@ export namespace Prisma {
 
   export type ProjectUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: ProjectFolderUpdateOneWithoutProjectsNestedInput
     chat_assignments?: UserChatProjectUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25486,10 +27519,38 @@ export namespace Prisma {
 
   export type ProjectUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    position?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectFolderUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUpdateManyWithoutFolderNestedInput
+  }
+
+  export type ProjectFolderUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    projects?: ProjectUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type ProjectFolderUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    is_open?: BoolFieldUpdateOperationsInput | boolean
+    position?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -25609,6 +27670,52 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     user_id?: BigIntFieldUpdateOperationsInput | bigint | number
     chat_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type ProjectCreateManyFolderInput = {
+    id?: bigint | number
+    user_id: bigint | number
+    position: number
+    name: string
+    description?: string | null
+    icon?: string | null
+    color?: string | null
+    created_at?: Date | string
+  }
+
+  export type ProjectUpdateWithoutFolderInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    chat_assignments?: UserChatProjectUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutFolderInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    chat_assignments?: UserChatProjectUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutFolderInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    user_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    position?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ThreadCreateManyRoomInput = {
