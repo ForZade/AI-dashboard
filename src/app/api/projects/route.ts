@@ -5,6 +5,7 @@ import { handleError } from "@/lib/errors/response.error";
 import { safe } from "@/lib/result.util";
 import { generateId } from "@/lib/snowflake";
 import { createProjectSchema } from "@/features/projects/projects.validation";
+import { getNextRootPosition } from "@/lib/position.utils";
 
 export async function GET() {
     const userId = await requireAuth();
@@ -33,6 +34,9 @@ export async function POST(req: NextRequest) {
         return handleError(validation.error);
     }
 
+    const [position, positionError] = await safe(getNextRootPosition(userId));
+    if (positionError) return handleError(positionError);
+
     const data = validation.data;
     const snowflake = generateId();
 
@@ -40,7 +44,7 @@ export async function POST(req: NextRequest) {
         data: {
             id: snowflake,
             user_id: userId,
-            position: 0, //! To be changed
+            position,
             name: data.name,
             description: data.description ?? null,
             icon: data.icon ?? null,
