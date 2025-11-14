@@ -8,7 +8,8 @@ import { createProjectSchema } from "@/features/projects/projects.validation";
 import { getNextRootPosition } from "@/lib/position.utils";
 
 export async function GET() {
-    const userId = await requireAuth();
+    const [userId, authError] = await safe(requireAuth());
+    if (authError) return handleError(authError);
 
     const [projects, error] = await safe(prisma.project.findMany({
         where: {
