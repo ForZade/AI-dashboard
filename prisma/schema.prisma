@@ -84,8 +84,8 @@ model Project {
   position      Int
   name          String
   description   String?
-  icon          String?
-  color         String?
+  icon          String?  @default("chat")
+  color         String?  @default("gray")
   created_at    DateTime @default(now())
 
   user             User              @relation(fields: [user_id], references: [id], onDelete: Cascade)

@@ -15,24 +15,26 @@ const description = z
   .string()
   .max(500, 'Description must be 500 characters or less')
   .trim()
-  .optional();
+  .optional()
+  .transform((val) => val ?? null);
 
 const iconName = z
   .string()
   .min(1)
   .max(50)
   .regex(/^[a-zA-Z0-9-]+$/, 'Invalid icon name')
-  .optional();
+  .optional()
+  .transform((val) => val ?? "chat");
 
 const color = z
   .enum(VALID_COLORS, { message: 'Invalid color' })
-  .optional();
+  .optional()
+  .transform((val) => val ?? "gray")
 
 export const createProjectSchema = z.object({
   name: projectName,
   description,
   icon: iconName,
   color,
-  folderId: z.string().regex(/^\d+$/).nullable().optional(),
   position: z.number().int().min(0).optional(),
 });
