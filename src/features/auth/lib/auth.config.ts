@@ -1,23 +1,26 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { prisma } from "@/db/postgres/prisma.client";
-import { CustomPrismaAdapter } from "./prisma.adapter";
-import { loginSchema } from "./validation";
-import argon2 from "argon2";
+import { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import { prisma } from '@/db/postgres/prisma.client';
+import { CustomPrismaAdapter } from './prisma.adapter';
+import { loginSchema } from './validation';
+import argon2 from 'argon2';
+import { ProjectsService } from '@/services/projects.service';
+
+const projectsService = new ProjectsService();
 
 export const authOptions: NextAuthOptions = {
   adapter: CustomPrismaAdapter(prisma),
   session: {
-    strategy: "database",
+    strategy: 'database',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         try {
@@ -29,16 +32,16 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user || !user.password) {
-            throw new Error("Invalid credentials");
+            throw new Error('Invalid credentials');
           }
 
           const isPasswordValid = await argon2.verify(
             user.password.password,
-            validatedData.password
+            validatedData.password,
           );
 
           if (!isPasswordValid) {
-            throw new Error("Invalid credentials");
+            throw new Error('Invalid credentials');
           }
 
           return {
@@ -48,7 +51,7 @@ export const authOptions: NextAuthOptions = {
             image: user.avatar_url,
           };
         } catch {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
       },
     }),
@@ -58,7 +61,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   callbacks: {
     async session({ session, user }) {
@@ -68,9 +71,4 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  events: {
-    async createUser({ user }) {
-      // Add Project creation here.
-    }
-  }
 };
