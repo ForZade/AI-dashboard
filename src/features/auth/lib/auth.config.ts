@@ -68,4 +68,9 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  events: {
+    async createUser({ user }) {
+      // Add Project creation here.
+    }
+  }
 };
