@@ -37,7 +37,7 @@ export class FoldersService {
 
                 if (!project) throw new NotFoundError("Project either doesn't exist or you have no access");
 
-                return prisma.project.update({
+                prisma.project.update({
                     where: { id: projectId },
                     data: { folder_id: snowflake },
                 });
@@ -45,5 +45,34 @@ export class FoldersService {
         );
 
         return folder;
+    }
+
+    async deleteFolder(folderId: bigint, userId: bigint) {
+        const folderProjects = await prisma.project.findMany({
+            where: {
+                folder_id: folderId,
+                user_id: userId,
+            }
+        });
+
+        await Promise.all(
+            folderProjects.map(project => {
+                // Need to calculate position where to put Project:
+                // - The idea is to put the project where folder position was.
+
+                prisma.project.update({
+                    where: {
+                        id: project.id,
+                    },
+                    data: {
+                        folder_id: null,
+                    }
+                });
+            })
+        );
+
+        await prisma.projectFolder.delete({
+            where: { id: folderId }
+        });
     }
 }
