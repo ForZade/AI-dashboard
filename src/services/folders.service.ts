@@ -80,4 +80,20 @@ export class FoldersService {
             where: { id: folderId }
         });
     }
+
+    async toggleFolder(folderId: bigint, userId: bigint) {
+        const folder = await prisma.projectFolder.findFirst({
+            where: {
+                id: folderId,
+                user_id: userId,
+            }
+        });
+
+        if (!folder) throw new NotFoundError("Folder not found");
+
+        return prisma.projectFolder.update({
+            where: { id: folderId },
+            data: { is_open: !folder.is_open }
+        });
+    }
 }
