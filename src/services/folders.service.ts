@@ -17,12 +17,22 @@ export class FoldersService {
     }
 
     async createFolder(data: ProjectFolder, projects: bigint[]) {
+        const dropTarget = await prisma.project.findFirst({
+            where: { 
+                user_id: data.user_id, 
+                id: projects[1]
+            },
+        });
+        
+        if (!dropTarget) throw new NotFoundError("Drop target project doesn't exist or you have no access");
+
         const snowflake = generateId();
 
         const folder = await prisma.projectFolder.create({
             data: {
                 ...data,
-                id: snowflake
+                id: snowflake,
+                position: dropTarget.position
             }
         });
 

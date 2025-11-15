@@ -4,7 +4,6 @@ import { requireAuth } from '@/lib/auth.api';
 import { handleError } from '@/lib/errors/response.error';
 import { NextRequest, NextResponse } from 'next/server';
 import { createProjectSchema } from './projects.validation';
-import { getNextRootPosition } from '@/lib/position.utils';
 
 const projectsService = new ProjectsService();
 
@@ -31,12 +30,8 @@ export class ProjectsController {
       return handleError(validation.error);
     }
 
-    const [position, positionError] = await safe(getNextRootPosition(userId));
-    if (positionError) return handleError(positionError);
-
     const data = {
       ...validation.data,
-      position,
       user_id: userId,
     };
 

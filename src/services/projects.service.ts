@@ -2,6 +2,9 @@ import { Project } from "@/db/postgres/prisma";
 import { prisma } from "@/db/postgres/prisma.client"
 import { NotFoundError } from "@/lib/errors/errors";
 import { generateId } from "@/lib/snowflake";
+import { PositionService } from "./position.service";
+
+const positionService = new PositionService();
 
 export class ProjectsService {
     async getProjects(userId: bigint) {
@@ -19,12 +22,14 @@ export class ProjectsService {
         return projects;
     }
 
-    async createProject(data: Omit<Project, "id" | "created_at" | "folder_id">) {
+    async createProject(data: Omit<Project, "id" | "created_at" | "folder_id" | "position">) {
         const snowflake = generateId();
+        const position = await positionService.getNewRootPosition(data.user_id);
 
         const project = await prisma.project.create({
             data: {
                 id: snowflake,
+                position,
                 ...data,
             }
         });
