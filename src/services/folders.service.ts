@@ -1,6 +1,6 @@
 import { ProjectFolder } from "@/db/postgres/prisma";
 import { prisma } from "@/db/postgres/prisma.client";
-import { NotFoundError } from "@/lib/errors/errors";
+import { NotFoundError, ValidationError } from "@/lib/errors/errors";
 import { generateId } from "@/lib/snowflake";
 
 export class FoldersService {
@@ -48,28 +48,33 @@ export class FoldersService {
     }
 
     async deleteFolder(folderId: bigint, userId: bigint) {
-        const folderProjects = await prisma.project.findMany({
+        const project = await prisma.project.findMany({
             where: {
                 folder_id: folderId,
                 user_id: userId,
             }
         });
 
-        await Promise.all(
-            folderProjects.map(project => {
-                // Need to calculate position where to put Project:
-                // - The idea is to put the project where folder position was.
+        if (project.length >= 1) throw new ValidationError("Folder can only be deleted if exactly 1 project remains");
 
-                prisma.project.update({
-                    where: {
-                        id: project.id,
-                    },
-                    data: {
-                        folder_id: null,
-                    }
-                });
-            })
-        );
+        const folder = await prisma.projectFolder.findFirst({
+            where: {
+                id: folderId,
+                user_id: userId,
+            }
+        });
+
+        if (!folder) throw new NotFoundError("Folder does not exist");
+
+        await prisma.project.update({
+            where: {
+                id: project[0].id,
+            },
+            data: {
+                folder_id: null,
+                position: folder.position
+            }
+        });
 
         await prisma.projectFolder.delete({
             where: { id: folderId }
