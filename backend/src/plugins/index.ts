@@ -3,6 +3,7 @@ import { registerCors } from "./cors.plugin";
 import { registerCookies } from "./cookies.plugin";
 import { registerSession } from "./session.plugin";
 import { registerMultipart } from "./multipart.plugin";
+import { registerErrorHandling } from "./errors.plugin";
 
 export function createServer() {
   const app = Fastify();
@@ -11,6 +12,7 @@ export function createServer() {
   registerCookies(app);
   registerSession(app);
   registerMultipart(app);
+  registerErrorHandling(app);
 
   return app;
 }
