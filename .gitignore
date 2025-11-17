@@ -1,0 +1,60 @@
+# =====================
+# OS & Editor files
+# =====================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.swp
+
+# =====================
+# Node / Bun
+# =====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun.lockb
+package-lock.json
+
+# =====================
+# Build / Output
+# =====================
+dist/
+build/
+.out/
+.next/
+.env.local
+.env.*.local
+.env
+.env.*
+
+# =====================
+# TypeScript
+# =====================
+*.tsbuildinfo
+
+# =====================
+# Backend specific (if using Bun/Fastify/TS)
+# =====================
+/backend/dist/
+/backend/.env
+/backend/.cache/
+/backend/src/db/postgres/prisma/
+
+# =====================
+# Frontend specific (Next.js, React)
+# =====================
+/frontend/.next/
+/frontend/out/
+/frontend/.env
+/frontend/.cache/
+
+# =====================
+# Misc
+# =====================
+coverage/
+*.seed
+*.bak
