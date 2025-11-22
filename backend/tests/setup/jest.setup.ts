@@ -17,5 +17,5 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await stopTestContainers();
-  process.exit(0);
+  // process.exit(0);
 }, 30000);
