@@ -1,5 +1,4 @@
 import { AppError } from "./errors";
-import { success, ZodError } from "zod";
 import { ValidationError } from "./errors";
 import { FastifyReply } from "fastify";
 import chalk from "chalk";
@@ -16,16 +15,6 @@ export function handleError(res: FastifyReply, error: unknown) {
             ...(error instanceof ValidationError && error.details
             ? { details: error.details }
             : {}),
-        });
-    }
-
-    if (error instanceof ZodError) {
-        return res.status(400).send({
-            success: false,
-            status: 400,
-            error: 'Validation failed',
-            code: 'VALIDATION_ERROR',
-            details: error.issues,
         });
     }
 
