@@ -15,6 +15,7 @@ export const validateBody = <T>(schema: ZodType<T>) => {
                 success: false,
                 status: 400,
                 error: "Validation Failed",
+                code: "VALIDATION_ERROR",
                 details,
             });
         }

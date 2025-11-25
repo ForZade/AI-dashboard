@@ -19,14 +19,25 @@ api.interceptors.request.use(config => {
 });
 
 api.interceptors.response.use(res => {
-    const newToken = res.headers["x-access-token"];
+        const newToken = res.headers["x-access-token"];
 
-    if (newToken) {
-        accessToken = newToken;
+        if (newToken) {
+            accessToken = newToken;
+        }
+
+        return res;
+    },
+    err => {
+        const res = err.response;
+
+        if (res?.status === 401) {
+            window.location.replace("/login");
+            return Promise.reject(err);
+        }
+
+        return Promise.reject(res?.data || err);
     }
-
-    return res;
-});
+);
 
 // Only created this for cases I use SSR where I need to replace access token manually.
 api.setAccessToken = (token: string) => {
