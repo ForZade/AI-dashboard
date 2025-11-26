@@ -1,7 +1,8 @@
 import authRoutes from "../features/auth/routes";
-import { handleError } from "../lib/exceptions/error.handler";
+import projectsRoutes from "../features/projects/projects.routes";
 import { FastifyInstance } from "fastify";
 
 export function registerRoutes(fastify: FastifyInstance) {
-    fastify.register(authRoutes, { prefix: "/auth"});
+    fastify.register(authRoutes, { prefix: "/auth" });
+    fastify.register(projectsRoutes, { prefix: "/projects" })
 }
