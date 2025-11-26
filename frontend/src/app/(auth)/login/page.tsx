@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { safe } from "@/lib/safe.utils";
 import { api } from "@/lib/axios.client";
 import { handleError } from "@/lib/error.handler";
-import { useEffect } from "react";
 import { useUserStore } from "@/store/useUser.store";
 
 export default function LoginPage() {
@@ -29,7 +28,6 @@ export default function LoginPage() {
         setUser(user);
 
         if (!user.verified) return router.replace("/verify");
-        if (!user.username) return router.replace("/setup");
 
         router.replace("/chat");
     };

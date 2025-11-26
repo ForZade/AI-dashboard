@@ -25,9 +25,7 @@ export default function VerifyPage() {
         const user = res.data;
         setUser(user);
 
-        if (!user.username) return router.replace("/setup");
-
-        router.replace("/chat");
+        return router.replace("/setup");
     };
 
     return (
