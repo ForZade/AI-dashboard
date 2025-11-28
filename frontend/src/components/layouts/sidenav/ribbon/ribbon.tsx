@@ -1,39 +1,37 @@
-"use client";
+'use client';
 
-import { safe } from "@/lib/safe.utils";
-import { CreateProjectButton } from "./createProject";
-import Project from "./projects";
-import { api } from "@/lib/axios.client";
-import { handleError } from "@/lib/error.handler";
-import { useEffect, useState } from "react";
+import { safe } from '@/lib/safe.utils';
+import { CreateProjectButton } from './createProject';
+import { api } from '@/lib/axios.client';
+import { handleError } from '@/lib/error.handler';
+import { useEffect, useState } from 'react';
+import ProjectInteractive from './project/project.interactive';
 
 export default function Ribbon() {
-    const [projects, setProjects] = useState<any>([]);
+  const [projects, setProjects] = useState<any>([]);
 
-    useEffect(() => {
-        const loadProjects = async () => {
-            const [data, error] = await safe(api.get("/api/v1/projects"));
+  useEffect(() => {
+    const loadProjects = async () => {
+      const [data, error] = await safe(api.get('/api/v1/projects'));
 
-            if (error) {
-                handleError(error);
-                return;
-            }
-            
-            setProjects(data?.data.data || []);
-        };
+      if (error) {
+        handleError(error);
+        return;
+      }
 
-        loadProjects();
-    }, []);
+      setProjects(data?.data.data || []);
+    };
 
-    return (
-        <nav className="w-16 h-full p-2 flex flex-col items-center gap-2">
-            {
-                projects.map((project: any) => (
-                    <Project key={project.id} project={project}/>
-                ))
-            }
-            <hr className="w-full border border-foreground/10"/>
-            <CreateProjectButton/>
-        </nav>
-    )
+    loadProjects();
+  }, []);
+
+  return (
+    <nav className="w-16 h-full p-2 flex flex-col items-center gap-2">
+      {projects.map((project: any) => (
+        <ProjectInteractive key={project.id} project={project} />
+      ))}
+      <hr className="w-full border border-foreground/10" />
+      <CreateProjectButton />
+    </nav>
+  );
 }
