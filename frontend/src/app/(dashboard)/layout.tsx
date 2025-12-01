@@ -1,11 +1,12 @@
 import Overlays from "@/components/layouts/overlays";
-import ChatNav from "@/components/layouts/sidenav/chatnav/chatnav";
 import Ribbon from "@/components/layouts/sidenav/ribbon/ribbon";
+import ChatNav from "@/components/layouts/sidenav/chatnav/chatnav";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { OverlayProvider } from "@/contexts/useOverlays";
 import { ProjectsProvider } from "@/contexts/useProjects";
+import { ReactNode } from "react";
 
-export default function DashboardLayout() {
+export default function DashboardLayout({ children }: { children: ReactNode }) {
     
 
     return (
@@ -22,8 +23,8 @@ export default function DashboardLayout() {
 
                         <ResizableHandle/>
 
-                        <ResizablePanel>
-
+                        <ResizablePanel className="py-4">
+                            {children}
                         </ResizablePanel>
                     </ResizablePanelGroup>
                 </main>
