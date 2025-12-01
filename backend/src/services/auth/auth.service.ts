@@ -66,23 +66,18 @@ export class AuthService {
 
     const decrypted = tokenService.verifyToken(resetToken, 'reset');
     if (!decrypted || typeof decrypted === 'string' || !('userId' in decrypted)) {
-      console.log('No shot its problems with decrypted', decrypted);
 
       throw new UnauthorizedError('Invalid or expired token');
     }
 
     const savedToken = await redis.get(`reset:${decrypted.userId}`);
     if (!savedToken) {
-      console.log('We do not have saved token?');
 
       throw new UnauthorizedError('Invalid or expired token');
     }
 
     const doTokensMatch = await argon2.verify(savedToken, resetToken);
     if (!doTokensMatch) {
-      console.log('Tokens do not match?');
-      console.log('Saved hashed token:', savedToken);
-      console.log('input token:', resetToken);
 
       throw new UnauthorizedError('Invalid token');
     }

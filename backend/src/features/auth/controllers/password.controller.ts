@@ -127,8 +127,6 @@ class PasswordController {
             });
         }
 
-        console.log(resetToken);
-
         const [, error] = await safe(authService.resetPasswordWithToken(newPassword, resetToken));
         if (error) return handleError(res, error);
 
