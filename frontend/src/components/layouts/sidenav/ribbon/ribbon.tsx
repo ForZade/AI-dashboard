@@ -4,34 +4,35 @@ import { safe } from '@/lib/safe.utils';
 import { CreateProjectButton } from './createProject';
 import { api } from '@/lib/axios.client';
 import { handleError } from '@/lib/error.handler';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ProjectInteractive from './project/project.interactive';
+import { useProjects } from '@/contexts/useProjects';
 
 export default function Ribbon() {
-  const [projects, setProjects] = useState<any>([]);
+  const { loadProjects, projects } = useProjects();
 
-  useEffect(() => {
-    const loadProjects = async () => {
-      const [data, error] = await safe(api.get('/api/v1/projects'));
+    useEffect(() => {
+        const fetchProjects = async () => {
+            const [data, error] = await safe(api.get('/api/v1/projects'));
 
-      if (error) {
-        handleError(error);
-        return;
-      }
+            if (error) {
+                handleError(error);
+                return;
+            }
 
-      setProjects(data?.data.data || []);
-    };
+            loadProjects(data?.data.data || []);
+        };
 
-    loadProjects();
-  }, []);
+        fetchProjects();
+    }, []);
 
-  return (
-    <nav className="w-16 h-full p-2 flex flex-col items-center gap-2">
-      {projects.map((project: any) => (
-        <ProjectInteractive key={project.id} project={project} />
-      ))}
-      <hr className="w-full border border-foreground/10" />
-      <CreateProjectButton />
-    </nav>
-  );
+    return (
+        <nav className="w-16 h-full p-2 flex flex-col items-center gap-2">
+            {projects.map((project: any) => (
+                <ProjectInteractive key={project.id} project={project} />
+            ))}
+            <hr className="w-full border border-foreground/10" />
+            <CreateProjectButton />
+        </nav>
+    );
 }

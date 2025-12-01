@@ -24,7 +24,7 @@ export default function LoginPage() {
         const [res, resError] = await safe(api.post("/api/v1/auth/login", parsed.data));
         if (resError) return handleError(resError, setError);
 
-        const user = res.data;
+        const user = res.data.data;
         setUser(user);
 
         if (!user.verified) return router.replace("/verify");

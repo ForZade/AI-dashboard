@@ -1,17 +1,12 @@
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger } from "@/components/ui/context-menu";
+"use client";
+
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import Project from "./project";
-import { safe } from "@/lib/safe.utils";
-import { api } from "@/lib/axios.client";
-import { handleError } from "@/lib/error.handler";
+import { useProjects } from "@/contexts/useProjects";
 
 export default function ProjectInteractive({ project, size }: { project: any, size?: "defalut" | "sm" | "lg" }) {
-    const deleteProject = async () => {
-        const [, deleteError] = await safe(api.delete(`/api/v1/projects/${project.id}`));
-        if (deleteError) return handleError(deleteError);
-
-        return;
-    }
+    const { deleteProject } = useProjects();
 
     return (
         <Tooltip>
@@ -27,14 +22,8 @@ export default function ProjectInteractive({ project, size }: { project: any, si
                         Edit
                     </ContextMenuItem>
 
-                    <ContextMenuItem variant="destructive" onClick={deleteProject}>
+                    <ContextMenuItem variant="destructive" onClick={() => deleteProject(project.id)}>
                         Delete project
-                    </ContextMenuItem>
-
-                    <hr className="w-full border border-foreground/10 my-1"/>
-
-                    <ContextMenuItem>
-                        Copy Project Id
                     </ContextMenuItem>
                 </ContextMenuContent>
 

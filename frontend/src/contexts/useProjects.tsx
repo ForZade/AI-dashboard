@@ -1,11 +1,17 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { CreateProjectValues } from "@/components/layouts/modal/createProject.form";
+import { api } from "@/lib/axios.client";
+import { handleError } from "@/lib/error.handler";
+import { safe } from "@/lib/safe.utils";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { UseFormSetError } from "react-hook-form";
 
 interface ProjectsContextType {
   projects: any,
   loadProjects: (projects: any) => void;
-  addProject: (projects: any) => void; 
+  createProject: (projects: CreateProjectValues, setError: UseFormSetError<CreateProjectValues>) => void;
+  deleteProject: (projectId: string) => void;
 }
 
 interface Project {
@@ -27,16 +33,34 @@ export const useProjects = () => {
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
   const [projects, setProjects] = useState<Project[]>([]);
 
+  useEffect(() => {
+    console.log(projects);
+  }, [projects]);
+
   const loadProjects = (projects: any) => {
     setProjects(projects);
   }
 
-  const addProject = (project: any) => {
+  const createProject = async (data: CreateProjectValues, setError: UseFormSetError<CreateProjectValues>) => {
+    const [res, projectError] = await safe(api.post('/api/v1/projects', data));
+    if (projectError) return handleError(projectError, setError);
+
+    const project = res.data.data;
+
     setProjects(prev => [...prev, project]);
+    return;
+  }
+
+  const deleteProject = async (projectId: string) => {
+    const [, projectError] = await safe(api.delete(`/api/v1/projects/${projectId}`));
+    if (projectError) return handleError(projectError);
+
+    setProjects(prev => prev.filter(p => p.id !== projectId));
+    return;
   }
 
   return (
-    <ProjectsContext.Provider value={{ projects, loadProjects, addProject }}>
+    <ProjectsContext.Provider value={{ projects, loadProjects, createProject, deleteProject }}>
       {children}
     </ProjectsContext.Provider>
   );

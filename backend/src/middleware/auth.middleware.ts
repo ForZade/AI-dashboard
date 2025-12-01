@@ -14,6 +14,8 @@ export async function authMiddleware(req: FastifyRequest, res: FastifyReply) {
     if (!accessToken) {
         const refreshToken = req.cookies.refreshToken;
 
+        console.log(refreshToken);
+
         if (!refreshToken) {
             throw new Error("No Refresh Token Found");
         }
@@ -27,8 +29,6 @@ export async function authMiddleware(req: FastifyRequest, res: FastifyReply) {
     }
     
     if (rotatedAccessToken && rotatedRefreshToken) {
-        console.log("We hit token settings");
-
         res.header("x-access-token", rotatedAccessToken);
         res.cookie("refreshToken", rotatedRefreshToken, {
             httpOnly: true,

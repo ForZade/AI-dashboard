@@ -2,10 +2,16 @@
 
 import { COLOR_MAP } from "@/lib/ui/colors";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { CreateProjectValues } from "./createProject.form";
 
-export function ColorInput({ label, control, name }: { label: string, control: Control, name: keyof CreateProjectValues }) {
+interface ColorInputProps<T extends FieldValues> {
+  label: string;
+  control: Control<T>;
+  name: Path<T>;
+}
+
+export function ColorInput<T extends FieldValues>({ label, control, name }: ColorInputProps<T>) {
     return (
         <div className="w-full h-min flex flex-col gap-4">
             <label className="text-foreground/50 font-bold text-sm">
@@ -15,7 +21,6 @@ export function ColorInput({ label, control, name }: { label: string, control: C
             <Controller
                 name={name}
                 control={control}
-                defaultValue="gray"
                 render={({ field }) => (
                     <RadioGroup
                         className="flex flex-row-reverse w-full h-min justify-between"

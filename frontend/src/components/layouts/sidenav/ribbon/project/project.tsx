@@ -7,7 +7,7 @@ import { useState } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuShortcut, ContextMenuTrigger } from "@/components/ui/context-menu";
 import { ContextMenuItem } from "@radix-ui/react-context-menu";
 
-export default function Project({ project, size }: { project: any, size?: "defalut" | "sm" | "lg" }) {
+export default function Project({ project, size, onClick }: { project: any, size?: "defalut" | "sm" | "lg", onClick?: () => void }) {
     const [hovered, setHovered] = useState(false);
     const Icon = getIcon(project.icon || "home");
 
@@ -22,6 +22,7 @@ export default function Project({ project, size }: { project: any, size?: "defal
             style={{ background: selectedColor + (hovered ? "40" : "20")}}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            onClick={onClick}
         >
             <Icon color={selectedColor} weight="Bold" size={size === "sm" ? 8 : size === "lg" ? 44 : 20}/>
         </div>

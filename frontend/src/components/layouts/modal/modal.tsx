@@ -1,6 +1,7 @@
 import { useOverlay } from "@/contexts/useOverlays"
 import { useEffect } from "react";
 import { CreateProjectForm } from "./createProject.form";
+import { ProjectsProvider } from "@/contexts/useProjects";
 
 export default function Modal() {
     const { closeModal, editingId } = useOverlay();

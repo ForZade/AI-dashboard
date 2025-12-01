@@ -21,7 +21,7 @@ export default function RegisterPage() {
         const [res, error] = await safe(api.post("/api/v1/auth/register", data));
         if (error) return handleError(error, setError);
 
-        setUser(res.data);
+        setUser(res.data.data);
 
         router.replace("/verify");
     };

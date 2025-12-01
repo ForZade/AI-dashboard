@@ -140,19 +140,9 @@ export class TokenService {
         if (!user) {
             throw new NotFoundError("User not found");
         }
-
-        console.log("old token:")
-        console.log(refreshToken)
-        console.log(decoded)
         
         const { refreshToken: newRefreshToken, accessToken: newAccessToken } = 
             await this.handleTokenCreation(decoded.userId, userAgent);
-
-        const newDecoded = tokenService.verifyToken(refreshToken, "refresh");
-
-        console.log("new token:")
-        console.log(newRefreshToken);
-        console.log(newDecoded);
         
         return { user, newAccessToken, newRefreshToken };
     }

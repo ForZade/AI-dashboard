@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { handleError } from "@/lib/error.handler";
 import { safe } from "@/lib/safe.utils";
 import { api } from "@/lib/axios.client";
-import { useEffect } from "react";
 import { useUserStore } from "@/store/useUser.store";
 
 export default function VerifyPage() {
