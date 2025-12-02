@@ -27,14 +27,7 @@ model User {
   oauths           UserOAuth[]
   sessions         Session[]
   projects         Project[]
-  project_folders  ProjectFolder[]
-  chats_owned      Chat[]
-  chats            UserChatProject[]
-  chat_members     ChatMember[]
-  threads_created  Thread[]            @relation("ThreadCreator")
-  metadata         UserMetadata?
-  safe_device      SafeDevice[]
-  twofa            TwoFA?
+  chats      Chat[]
 }
 
 model UserPassword {
@@ -64,27 +57,6 @@ model UserOAuth {
   @@unique([provider, provider_user_id])
 }
 
-model TwoFA {
-  id         BigInt   @id
-  user_id    BigInt   @unique
-  secret     String
-  enabled    Boolean  @default(false)
-  created_at DateTime @default(now())
-
-  backup_codes BackupCode[]
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
-
-model BackupCode {
-  id BigInt @id
-  twofa_id BigInt
-  code String
-  used Boolean @default(false)
-
-  twofa TwoFA @relation(fields: [twofa_id], references: [id], onDelete: Cascade)
-}
-
 model Session {
   id            BigInt   @id
   session_token String   @unique
@@ -98,19 +70,9 @@ model Session {
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
-model SafeDevice {
-  id         BigInt   @id
-  user_id    BigInt
-  user_agent String
-  created_at DateTime @default(now())
-
-  user User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
-
 model Project {
   id            BigInt   @id
   user_id       BigInt
-  folder_id     BigInt?
   position      Int
   name          String
   description   String?
@@ -118,69 +80,33 @@ model Project {
   color         String?  @default("gray")
   created_at    DateTime @default(now())
 
-  user             User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  folder           ProjectFolder?    @relation(fields: [folder_id], references: [id] )
-  chat_assignments UserChatProject[]
-}
-
-model ProjectFolder {
-  id         BigInt   @id
-  user_id    BigInt
-  is_open    Boolean  @default(true)
-  position   Int
-  created_at DateTime @default(now())
-  
-  user     User      @relation(fields: [user_id], references: [id])
-  projects Project[]
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  categories    Category[]
 }
 
 model Chat {
-  id         BigInt   @id
-  name       String
-  owner_id   BigInt
-  is_private Boolean  @default(false)
-  ghost_mode Boolean  @default(false)
-  created_at DateTime @default(now())
+  id          BigInt   @id
+  project_id  BigInt
+  name        String
+  category_id BigInt?
+  owner_id    BigInt
+  is_private  Boolean  @default(false)
+  ghost_mode  Boolean  @default(false)
+  created_at  DateTime @default(now())
 
-  threads            Thread[]
-  chat_members       ChatMember[]
-  user_chat_projects UserChatProject[]
-  owner              User              @relation(fields: [owner_id], references: [id], onDelete: Cascade)
-  metadata           ChatMetadata?
-  context            ChatContext?
+  owner       User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  category  Category?  @relation(fields: [category_id], references: [id], onDelete: SetNull) 
 }
 
-model UserChatProject {
-  id         BigInt @id
-  user_id    BigInt
-  chat_id    BigInt
-  project_id BigInt
+model Category {
+    id         BigInt @id
+    project_id BigInt
+    name       String
+    position   Int
+    created_at DateTime @default(now())
 
-  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  chat    Chat    @relation(fields: [chat_id], references: [id], onDelete: Cascade)
-  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
-}
-
-model ChatMember {
-  id        BigInt   @id
-  room_id   BigInt
-  user_id   BigInt
-  role      Int
-  joined_at DateTime @default(now())
-
-  chat Chat @relation(fields: [room_id], references: [id], onDelete: Cascade)
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
-
-model Thread {
-  id         BigInt   @id
-  room_id    BigInt
-  title      String
-  created_by BigInt
-  created_at DateTime @default(now())
-
-  room    Chat @relation(fields: [room_id], references: [id], onDelete: Cascade)
-  creator User @relation("ThreadCreator", fields: [created_by], references: [id], onDelete: Cascade)
+    chats    Chat[]
+    project  Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
 }
 
 model AIProfile {
@@ -200,29 +126,4 @@ model Model {
   created_at          DateTime @default(now())
 
   ai_profile AIProfile @relation(fields: [ai_profile_id], references: [id], onDelete: Cascade)
-}
-
-model UserMetadata {
-  user_id    BigInt   @id
-  data       String
-  updated_at DateTime @default(now())
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-}
-
-model ChatMetadata {
-  chat_id    BigInt   @id
-  data       String
-  updated_at DateTime @default(now())
-
-  chat Chat @relation(fields: [chat_id], references: [id], onDelete: Cascade)
-}
-
-model ChatContext {
-  chat_id      BigInt   @id
-  summary      String
-  last_updated DateTime @default(now())
-  vector_data  String?
-
-  chat Chat @relation(fields: [chat_id], references: [id], onDelete: Cascade)
 }

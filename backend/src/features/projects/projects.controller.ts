@@ -5,81 +5,98 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { User } from '../../db/postgres/prisma';
 import { CreateProjectType, UpdateProjectType } from './projects.validator';
 import { serializeToJson } from '../../lib/utils/serialize.utils';
+import { chatService } from '../../services/chat.service';
+import { success } from 'zod';
 
 const projectsService = new ProjectsService();
 
 export class ProjectsController {
-  async getAllProjects(req: FastifyRequest, res: FastifyReply) {
-    const user = req.user as User;
+    async getAllProjects(req: FastifyRequest, res: FastifyReply) {
+        const user = req.user as User;
 
-    const [projects, projectsError] = await safe(projectsService.getProjects(user.id));
-    if (projectsError) return handleError(res, projectsError);
+        const [projects, projectsError] = await safe(projectsService.getProjects(user.id));
+        if (projectsError) return handleError(res, projectsError);
 
-    return res.status(200).send({
-        success: true,
-        message: "Successfully gotten all projects",
-        data: await serializeToJson(projects),
-    });
-  }
+        return res.status(200).send({
+            success: true,
+            message: "Successfully gotten all projects",
+            data: await serializeToJson(projects),
+        });
+    }
 
-  async createNewProject(req: FastifyRequest<{ Body: CreateProjectType }>, res: FastifyReply) {
-    const user = req.user as User;
-    const body = req.body;
+    async getProjectChats(req: FastifyRequest<{ Params: { id: string }}>, res: FastifyReply) {
+        const user = req.user as User;
+        const { id } = req.params;
 
-    const data = {
-      ...body,
-      user_id: user.id,
-    };
+        const projectId = BigInt(id);
 
-    const [project, projectError] = await safe(projectsService.createProject(data));
-    if (projectError) return handleError(res, projectError);
+        const [categories, categoriesError] = await safe(chatService.getAllChats(projectId));
+        if (categoriesError) return handleError(res, categoriesError);
 
-    return res.status(201).send({
-        success: true,
-        message: "New project created",
-        data: await serializeToJson(project),
-    });
-  }
+        return res.status(200).send({
+            success: true,
+            data: await serializeToJson(categories),
+        });
+    } 
 
-async updateProject(
-    req: FastifyRequest<{
-        Body: UpdateProjectType,
-        Params: { id: string }
-    }>, 
-    res: FastifyReply
-) {
-    const { id } = req.params;
-    const user = req.user as User;
-    const body = req.body;
+    async createNewProject(req: FastifyRequest<{ Body: CreateProjectType }>, res: FastifyReply) {
+        const user = req.user as User;
+        const body = req.body;
 
-    const projectId = BigInt(id);
+        const data = {
+        ...body,
+        user_id: user.id,
+        };
 
-    const [project, projectError] = await safe(
-      projectsService.updateProject(projectId, user.id, body),
-    );
-    if (projectError) return handleError(res, projectError);
+        const [project, projectError] = await safe(projectsService.createProject(data));
+        if (projectError) return handleError(res, projectError);
 
-    return res.status(200).send({
-        success: true,
-        message: 'Project updated successfully',
-        data: await serializeToJson(project),
-    });
-  }
+        return res.status(201).send({
+            success: true,
+            message: "New project created",
+            data: await serializeToJson(project),
+        });
+    }
 
-  async deleteProject(req: FastifyRequest<{ Params: { id: string }}>, res: FastifyReply) {
-    const { id } = req.params;
-    const user = req.user as User;
+    async updateProject(
+        req: FastifyRequest<{
+            Body: UpdateProjectType,
+            Params: { id: string }
+        }>, 
+        res: FastifyReply
+    ) {
+        const { id } = req.params;
+        const user = req.user as User;
+        const body = req.body;
 
-    const projectId = BigInt(id);
+        const projectId = BigInt(id);
 
-    const [, deleteError] = await safe(projectsService.deleteProject(projectId, user.id));
-    if (deleteError) return handleError(res, deleteError);
+        const [project, projectError] = await safe(
+            projectsService.updateProject(projectId, user.id, body),
+        );
+        if (projectError) return handleError(res, projectError);
 
-    return res.status(200).send({
-        success: true,
-        message: 'Project successfully deleted.',
-    });
-  }
+        return res.status(200).send({
+            success: true,
+            message: 'Project updated successfully',
+            data: await serializeToJson(project),
+        });
+    }
+
+    async deleteProject(req: FastifyRequest<{ Params: { id: string }}>, res: FastifyReply) {
+        const { id } = req.params;
+        const user = req.user as User;
+
+        const projectId = BigInt(id);
+
+        const [, deleteError] = await safe(projectsService.deleteProject(projectId, user.id));
+        if (deleteError) return handleError(res, deleteError);
+
+        return res.status(200).send({
+            success: true,
+            message: 'Project successfully deleted.',
+        });
+    }
 }
 
 export const projectsController = new ProjectsController();

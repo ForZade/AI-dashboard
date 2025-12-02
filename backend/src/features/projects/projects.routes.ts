@@ -16,6 +16,12 @@ export default function projectsRoutes(fastify: FastifyInstance) {
         projectsController.createNewProject,
     );
 
+    fastify.get<{ Params: { id: string } }>(
+        "/:id",
+        { preValidation: authMiddleware },
+        projectsController.getProjectChats,
+    )
+
     fastify.patch<{ Body: UpdateProjectType, Params: { id: string } }>(
         "/:id",
         { preValidation: [authMiddleware, validateBody(updateProjectSchema)]},
