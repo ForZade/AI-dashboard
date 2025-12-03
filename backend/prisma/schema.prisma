@@ -90,8 +90,6 @@ model Chat {
   name        String
   category_id BigInt?
   owner_id    BigInt
-  is_private  Boolean  @default(false)
-  ghost_mode  Boolean  @default(false)
   created_at  DateTime @default(now())
 
   owner       User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)

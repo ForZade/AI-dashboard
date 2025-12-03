@@ -17,6 +17,7 @@ export class ScyllaService {
 
     try {
       await this.scylla.connect();
+      this.scylla.execute(`USE ${process.env.SCYLLA_KEYSPACE ?? "default"}`);
       console.log(`[${chalk.blue("ScyllaDB")}] connected successfully`);
 
       await this.initTables();

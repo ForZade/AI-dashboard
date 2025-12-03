@@ -7,6 +7,7 @@ import { CreateProjectType, UpdateProjectType } from './projects.validator';
 import { serializeToJson } from '../../lib/utils/serialize.utils';
 import { chatService } from '../../services/chat.service';
 import { success } from 'zod';
+import { messageService } from '../../services/message.service';
 
 const projectsService = new ProjectsService();
 
@@ -23,21 +24,6 @@ export class ProjectsController {
             data: await serializeToJson(projects),
         });
     }
-
-    async getProjectChats(req: FastifyRequest<{ Params: { id: string }}>, res: FastifyReply) {
-        const user = req.user as User;
-        const { id } = req.params;
-
-        const projectId = BigInt(id);
-
-        const [categories, categoriesError] = await safe(chatService.getAllChats(projectId));
-        if (categoriesError) return handleError(res, categoriesError);
-
-        return res.status(200).send({
-            success: true,
-            data: await serializeToJson(categories),
-        });
-    } 
 
     async createNewProject(req: FastifyRequest<{ Body: CreateProjectType }>, res: FastifyReply) {
         const user = req.user as User;
@@ -96,6 +82,41 @@ export class ProjectsController {
             success: true,
             message: 'Project successfully deleted.',
         });
+    }
+
+    async getProjectChats(req: FastifyRequest<{ Params: { id: string }}>, res: FastifyReply) {
+        const { id } = req.params;
+        const projectId = BigInt(id);
+
+        const [categories, categoriesError] = await safe(chatService.getAllChats(projectId));
+        if (categoriesError) return handleError(res, categoriesError);
+
+        return res.status(200).send({
+            success: true,
+            data: await serializeToJson(categories),
+        });
+    }
+
+    async createNewProjectChat(req: FastifyRequest<{ Body: { message: string }, Params: { id: string }}>, res: FastifyReply) {
+        const user = req.user as User;
+        const { id } = req.params
+        const { message } = req.body;
+        const projectId = BigInt(id);
+        
+        const [chat, chatError] = await safe(chatService.createNewChat(message, user.id, projectId));
+        if (chatError) return handleError(res, chatError);
+
+        const [, msgError] = await safe(messageService.sendMessage(message, user.id, chat.id));
+        if (msgError) return handleError(res, msgError);
+
+        return res
+            .status(201)
+            .send({
+                success: true,
+                message: "Successfully created new Chat",
+                data: await serializeToJson(chat),
+                redirect: `/chat/${chat.id.toString()}`,
+            });
     }
 }
 

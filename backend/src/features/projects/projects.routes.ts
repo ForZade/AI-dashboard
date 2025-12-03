@@ -16,12 +16,6 @@ export default function projectsRoutes(fastify: FastifyInstance) {
         projectsController.createNewProject,
     );
 
-    fastify.get<{ Params: { id: string } }>(
-        "/:id",
-        { preValidation: authMiddleware },
-        projectsController.getProjectChats,
-    )
-
     fastify.patch<{ Body: UpdateProjectType, Params: { id: string } }>(
         "/:id",
         { preValidation: [authMiddleware, validateBody(updateProjectSchema)]},
@@ -32,5 +26,17 @@ export default function projectsRoutes(fastify: FastifyInstance) {
         "/:id",
         { preValidation: authMiddleware },
         projectsController.deleteProject
+    );
+
+    fastify.get<{ Params: { id: string } }>(
+        "/:id/chats",
+        { preValidation: authMiddleware },
+        projectsController.getProjectChats,
+    )
+
+    fastify.post<{ Body: { message: string }, Params: { id: string }}>(
+        "/:id/chats",
+        { preValidation: authMiddleware }, //! Add Validation later
+        projectsController.createNewProjectChat,
     );
 }
