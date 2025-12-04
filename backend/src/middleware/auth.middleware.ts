@@ -14,8 +14,6 @@ export async function authMiddleware(req: FastifyRequest, res: FastifyReply) {
     if (!accessToken) {
         const refreshToken = req.cookies.refreshToken;
 
-        console.log(refreshToken);
-
         if (!refreshToken) {
             throw new Error("No Refresh Token Found");
         }

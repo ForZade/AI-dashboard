@@ -9,7 +9,13 @@ export class MessageService {
         await scylla.execute(
             `INSERT INTO messages (chat_id, message_id, sender_id, content, created_at) 
             VALUES (?, ?, ?, ?, ?)`,
-            [chatId, messageId, userId, message, new Date()],
+            [
+                chatId.toString(), 
+                messageId.toString(), 
+                userId.toString(), 
+                message, 
+                new Date()
+            ],
             { prepare: true }
         );
     }
