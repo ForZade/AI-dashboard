@@ -3,7 +3,7 @@ import { authMiddleware, validateBody } from "../../middleware";
 import { updateNameSchema, UpdateNameType } from "../chats/chat.validator";
 import { chatController } from "./chat.controller";
 
-export default function projectsRoutes(fastify: FastifyInstance) {
+export default function chatsRoutes(fastify: FastifyInstance) {
     fastify.patch<{ Body: UpdateNameType, Params: { id: string }}>(
         "/:id",
         { preValidation: [authMiddleware, validateBody(updateNameSchema)] },

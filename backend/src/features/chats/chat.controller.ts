@@ -3,7 +3,8 @@ import { User } from "../../db/postgres/prisma";
 import { safe } from "../../lib/utils/safe.utils";
 import { chatService } from "../../services/chat.service";
 import { handleError } from "../../lib/exceptions";
-import { success } from "zod";
+import { serializeToJson } from "../../lib/utils/serialize.utils";
+import { messageService } from "../../services/message.service";
 
 export class ChatController {
     async updateChatName(req: FastifyRequest<{ Body: { name: string }, Params: { id: string }}>, res: FastifyReply) {
@@ -21,7 +22,7 @@ export class ChatController {
             .send({
                 success: true,
                 message: "Successfully updated chat name",
-                data: chat,
+                data: await serializeToJson(chat),
             });
     }
 
@@ -36,7 +37,7 @@ export class ChatController {
         return res.status(200).send({
             success: true,
             message: "Chat was successfully deleted",
-            data: chat,
+            data: await serializeToJson(chat),
         });
     }
 
@@ -51,7 +52,23 @@ export class ChatController {
         return res.status(200).send({
             success: true,
             message: "Chat pin status was successfully changed",
-            data: chat,
+            data: await serializeToJson(chat),
+        });
+    }
+
+    async sendChannelMessage(req: FastifyRequest<{ Body: { message: string }, Params: { id: string }}>, res: FastifyReply) {
+        const user = req.user as User;
+        const { id } = req.params;
+        const { message } = req.body;
+        const chatId = BigInt(id);
+
+        const [msg, msgError] = await safe(messageService.sendMessage(message, user.id, chatId));
+        if (msgError) return handleError(res, msgError);
+
+        return res.status(200).send({
+            success: true,
+            message: "Message sent successfully",
+            data: msg,
         });
     }
 }
