@@ -21,4 +21,16 @@ export default function chatsRoutes(fastify: FastifyInstance) {
         { preValidation: authMiddleware },
         chatController.pinChat,
     );
+
+    fastify.post<{ Body: { message: string }, Params: {id: string }}>(
+        "/:id/messages",
+        { preValidation: authMiddleware },
+        chatController.sendChannelMessage,
+    );
+
+    fastify.get<{ Params: { id: string}, Querystring: { direction: string, fromMessageId: string, limit: string }}>(
+        "/:id/messages",
+        { preValidation: authMiddleware },
+        chatController.getChannelMessages,
+    );
 }

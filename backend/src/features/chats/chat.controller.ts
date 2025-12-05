@@ -5,6 +5,8 @@ import { chatService } from "../../services/chat.service";
 import { handleError } from "../../lib/exceptions";
 import { serializeToJson } from "../../lib/utils/serialize.utils";
 import { messageService } from "../../services/message.service";
+import { scyllaService } from "../../db";
+import { success } from "zod";
 
 export class ChatController {
     async updateChatName(req: FastifyRequest<{ Body: { name: string }, Params: { id: string }}>, res: FastifyReply) {
@@ -69,6 +71,23 @@ export class ChatController {
             success: true,
             message: "Message sent successfully",
             data: msg,
+        });
+    }
+
+    async getChannelMessages(req: FastifyRequest<{ 
+        Params: { id: string }, 
+        Querystring: { direction?: string, fromMessageId?: string, limit?: string }
+    }>, res: FastifyReply) {
+        const { id } = req.params;
+        const { direction, fromMessageId, limit = "50" } = req.query;
+
+        const [messages, messagesError] = await safe(chatService.getMessages(id, limit, direction, fromMessageId));
+        if (messagesError) return handleError(res, messagesError);
+
+        return res.status(200).send({
+            success: true,
+            data: messages,
+            count: messages.length,
         });
     }
 }

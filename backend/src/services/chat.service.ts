@@ -1,4 +1,5 @@
-import { prismaService } from "../db";
+import { toLowerCase } from "zod";
+import { prismaService, scyllaService } from "../db";
 import { NotFoundError } from "../lib/exceptions";
 import { generateId } from "../lib/utils/snowflake.utils";
 
@@ -96,6 +97,41 @@ export class ChatService {
         });
 
         return updatedChat;
+    }
+
+    async getMessages(chatId: string, limit: string, direction?: string, fromMessageId?: string) {
+        const scylla = scyllaService.getClient();
+
+        const parsedLimit = Math.min(parseInt(limit as string), 100);
+
+        let query = `
+            SELECT * FROM messages WHERE chat_id = ?
+        `
+
+        const params: (string | number)[] = [chatId];
+
+        if (fromMessageId) {
+            if (direction?.toLowerCase() === "before") {
+                query += ` AND message_id < ?`;
+                params.push(fromMessageId);
+                query += ` ORDER BY message_id DESC`;
+            }
+            else if (direction?.toLowerCase() === "after") {
+                query += ` AND message_id > ?`;
+                params.push(fromMessageId);
+                query += ` ORDER BY message_id ASC`;
+            }
+        } else {
+            query += ` ORDER BY message_id DESC`;
+        }
+
+        query += ` LIMIT ?`;
+        params.push(parsedLimit);
+
+        const result = await scylla.execute(query, params, { prepare: true });
+        const messages = result.rows;
+
+        return messages;
     }
 }
 
