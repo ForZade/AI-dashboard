@@ -1,15 +1,6 @@
 import Redis from "ioredis";
 import chalk from "chalk";
 
-export const redisClient = new Redis({
-    host: process.env.REDIS_HOST || "localhost",
-    port: Number(process.env.REDIS_PORT) || 6379,
-});
-
-export const redis = {
-    getClient: () => redisClient,
-};
-
 export class RedisService {
     private redis: Redis | null = null;
 
@@ -36,3 +27,5 @@ export class RedisService {
         return this.redis;
     }
 }
+
+export const redisService = new RedisService();

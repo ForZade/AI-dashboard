@@ -6,6 +6,11 @@ interface CustomAxiosInstance extends AxiosInstance {
 
 let accessToken: string | null = null;
 
+const generateIdempotencyKey = (): string => {
+  const now = Date.now();
+  return (now - (Math.floor(now / 3600000) * 3600000)).toString();
+};
+
 export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || '',
     withCredentials: true,
@@ -15,6 +20,11 @@ api.interceptors.request.use(config => {
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
+
+    if (['POST', 'PATCH', 'PUT'].includes(config.method?.toUpperCase() || '')) {
+        config.headers['Idempotency-Key'] = generateIdempotencyKey();
+    }
+
     return config;
 });
 
